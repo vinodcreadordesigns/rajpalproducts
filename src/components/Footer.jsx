@@ -1,0 +1,467 @@
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { memo } from "react";
+import { Phone, Mail, MapPin, Star, Globe2, RotateCcw } from "lucide-react";
+
+import rajpalLogo from "../assets/rajpal logo PNG.png";
+
+import {
+  categories,
+  navLinks,
+} from "../data/siteData";
+
+/* ───────────────── DIVINE IMAGES (local assets) ─────────────────
+   Place your images at: src/assets/images/footerimages/
+   Rename the files to match below, or update these import paths/names
+   to match whatever filenames you actually have in that folder. */
+import divineImg1 from "../assets/images/footerimages/divine-1.jpg";
+import divineImg2 from "../assets/images/footerimages/divine-2.jpg";
+import divineImg3 from "../assets/images/footerimages/divine-3.jpg";
+import divineImg4 from "../assets/images/footerimages/divine-4.jpg";
+import divineImg5 from "../assets/images/footerimages/divine-5.jpg";
+import divineImg6 from "../assets/images/footerimages/divine-6.jpg";
+
+const divineImages = [
+  divineImg1,
+  divineImg2,
+  divineImg3,
+  divineImg4,
+  divineImg5,
+  divineImg6,
+];
+
+/* ───────────────── ADDRESS + RATING (yahin se edit karo) ─────────────────
+   Address ContactForm wala hi hai. Lines badalne par "Get Directions" ka
+   Google Maps link apne aap us address ke hisaab se ban jaata hai.
+   ⚠️ Rating (neeche) abhi placeholder hai, real score daal do. */
+const ADDRESS_LINES = [
+  "Rajpal Products",
+  "Shop No.2, Vastu Matunga Co-operative Housing Society,",
+  "Laxmi Narayan Lane, Matunga C.Rly,",
+  "Mumbai 400-019",
+];
+
+const RATING_SCORE = "4.9"; // 5 mein se
+const RATING_FILLED = 5; // kitne stars gold dikhne chahiye (0 - 5)
+const RATING_TEXT = "Loved by 5000+ happy customers";
+
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  ADDRESS_LINES.join(", ")
+)}`;
+
+/* ───────────────── SOCIAL LINKS (yahin se edit karo) ─────────────────
+   ⚠️ LinkedIn aur Facebook ke link abhi placeholder hain.
+   Apne real page ka URL yahan daal do. */
+const SOCIAL_LINKS = {
+  instagram: "https://www.instagram.com/rajpalincense81?igsi=MWduOTB5bjZqMThs",
+  whatsapp: "https://wa.me/919930670044",
+  linkedin: "https://www.linkedin.com/", // TODO: apna LinkedIn page URL
+  facebook: "https://www.facebook.com/", // TODO: apna Facebook page URL
+};
+
+const socials = [
+  {
+    id: "instagram",
+    label: "Instagram",
+    href: SOCIAL_LINKS.instagram,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-[17px] w-[17px]">
+        <rect x="2" y="2" width="20" height="20" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    id: "whatsapp",
+    label: "WhatsApp",
+    href: SOCIAL_LINKS.whatsapp,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-[17px] w-[17px]">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+      </svg>
+    ),
+  },
+  {
+    id: "linkedin",
+    label: "LinkedIn",
+    href: SOCIAL_LINKS.linkedin,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-[17px] w-[17px]">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+      </svg>
+    ),
+  },
+  {
+    id: "facebook",
+    label: "Facebook",
+    href: SOCIAL_LINKS.facebook,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="h-[17px] w-[17px]">
+        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+  },
+];
+
+/* Ek hi row component — brand, quick links aur categories ke niche reuse hota hai */
+const SocialIcons = memo(function SocialIcons() {
+  return (
+    <div className="mt-5 flex items-center gap-2.5">
+      {socials.map((s) => (
+        <a
+          key={s.id}
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.label}
+          title={s.label}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#C49B63]/25 bg-white/[0.04] text-[#EAD3A1] transition duration-300 hover:-translate-y-0.5 hover:border-[#C49B63] hover:bg-[#C49B63] hover:text-[#070201]"
+        >
+          {s.icon}
+        </a>
+      ))}
+    </div>
+  );
+});
+
+/* ───────────────── FLOATING PARTICLES ───────────────── */
+const Particle = memo(function Particle({ delay, x, size }) {
+  return (
+    <motion.div
+      className="pointer-events-none absolute rounded-full bg-[#C49B63] will-change-transform"
+      style={{
+        left: `${x}%`,
+        bottom: "0",
+        width: size,
+        height: size,
+      }}
+      animate={{
+        y: [-10, -90, -10],
+        opacity: [0, 0.7, 0],
+        scale: [0.7, 1.3, 0.7],
+      }}
+      transition={{
+        duration: 6 + delay,
+        repeat: Infinity,
+        delay,
+        ease: "easeInOut",
+      }}
+    />
+  );
+});
+
+const particles = [
+  { delay: 0, x: 10, size: 4 },
+  { delay: 1, x: 24, size: 3 },
+  { delay: 2, x: 45, size: 5 },
+  { delay: 1.5, x: 66, size: 3 },
+  { delay: 3, x: 80, size: 4 },
+];
+
+/* ───────────────── INFO TAGS (clean white cards) ─────────────────
+   Kisi tag ko page se link karna ho to `to: "/your-route"` add karo (internal page),
+   ya `href` (external / WhatsApp / mailto). Bina link wala tag sirf text card rahega. */
+const infoTags = [
+  { icon: Globe2, label: "Shipping Worldwide" },
+  { icon: RotateCcw, label: "Return & Exchange Policy" },
+  { icon: Phone, label: "WhatsApp +91 99306 70044", href: "https://wa.me/919930670044" },
+  { icon: Mail, label: "info@rajpalproducts.com", href: "mailto:info@rajpalproducts.com", noCaps: true },
+];
+
+const Footer = () => {
+  return (
+    <>
+      {/* PREMIUM FONT + MARQUEE CSS (pure CSS, no JS-driven rAF) */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        .footer-heading{ font-family:'Cinzel', serif; font-weight:800; letter-spacing:0.18em; }
+        .footer-text{ font-family:'Inter', sans-serif; letter-spacing:0.03em; }
+        .footer-brand{ font-family:'Cinzel', serif; font-weight:900; letter-spacing:0.22em; }
+
+        /* CSS-only marquee: GPU-composited transform, no re-render, no backdrop-blur mixed in */
+        .marquee-track{
+          display:flex;
+          width:max-content;
+          gap:2rem;
+          padding:0 2rem;
+          will-change:transform;
+          animation: marquee-scroll 35s linear infinite;
+        }
+        .marquee-track:hover{ animation-play-state: paused; }
+
+        @keyframes marquee-scroll{
+          from{ transform: translateX(0); }
+          to{ transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .marquee-track{ animation: none; }
+        }
+
+        .gallery-card{
+          transition: transform 0.35s ease;
+        }
+        .gallery-card:hover{
+          transform: scale(1.04) translateY(-8px);
+        }
+
+        /* Scrollable categories list so ALL categories fit without breaking layout */
+        .categories-list{
+          max-height: 190px;
+          overflow-y: auto;
+          padding-right: 6px;
+        }
+        .categories-list::-webkit-scrollbar{ width: 4px; }
+        .categories-list::-webkit-scrollbar-thumb{ background: rgba(196,155,99,0.4); border-radius: 4px; }
+        .categories-list::-webkit-scrollbar-track{ background: transparent; }
+      `}</style>
+
+      <footer className="relative overflow-hidden bg-[#070201]">
+        {/* TOP BORDER */}
+        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#C49B63]/60 to-transparent" />
+
+        {/* ─────────── 3D GALLERY (CSS marquee, no backdrop-blur here) ─────────── */}
+        <div className="relative z-20 overflow-hidden border-b border-[#C49B63]/10 bg-black/60 py-8">
+          <div className="marquee-track">
+            {[...divineImages, ...divineImages].map((img, i) => (
+              <div key={i} className="gallery-card">
+                <div className="relative h-[240px] w-[360px] overflow-hidden rounded-[30px] border border-[#C49B63]/20 bg-black shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                  <img
+                    src={img}
+                    alt="Divine"
+                    width={360}
+                    height={240}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#C49B63]/10 to-transparent" />
+                  <div className="absolute bottom-5 left-5">
+                    <p className="footer-heading text-xs uppercase tracking-[0.3em] text-[#EAD3A1]">
+                      Divine Collection
+                    </p>
+                    <h3 className="mt-2 text-xl font-semibold text-white">
+                      Premium Spiritual
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* AMBIENT GLOW — static now, no scroll-linked transform (that was recalculating every scroll frame) */}
+        <div className="pointer-events-none absolute inset-0 z-0">
+          <div className="absolute left-[10%] top-[25%] h-96 w-96 rounded-full bg-[#7A1020]/10 blur-[100px]" />
+          <div className="absolute right-[10%] top-[40%] h-80 w-80 rounded-full bg-[#C49B63]/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-1/2 h-60 w-[650px] -translate-x-1/2 rounded-full bg-[#C49B63]/5 blur-[80px]" />
+        </div>
+
+        {/* PARTICLES */}
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          {particles.map((p, i) => (
+            <Particle key={i} {...p} />
+          ))}
+        </div>
+
+        {/* MAIN FOOTER CONTENT */}
+        <div className="relative z-20 mx-auto max-w-7xl px-6 pb-5 pt-10">
+          <div className="grid gap-8 md:grid-cols-4">
+            {/* BRAND */}
+            <div>
+              <motion.div
+                className="relative mb-3 h-12 w-40 sm:h-14 sm:w-44"
+                animate={{ y: [0, -2, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <img
+                  src={rajpalLogo}
+                  alt="Rajpal Products"
+                  className="h-full w-full object-contain drop-shadow-sm"
+                />
+              </motion.div>
+              <div className="mb-4 h-px w-24 bg-gradient-to-r from-[#C49B63]/60 to-transparent" />
+              <p className="footer-text text-sm leading-6 text-white/55">
+                Premium spiritual fragrance collections crafted with
+                devotion, heritage and timeless Indian elegance since 1981.
+              </p>
+
+              {/* Social icons — logo + text ke niche */}
+              <SocialIcons />
+            </div>
+
+            {/* QUICK LINKS */}
+            <div>
+              <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Quick Links</h4>
+              <div className="space-y-2.5">
+                {navLinks.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="footer-text block text-sm text-white/55 transition hover:text-[#EAD3A1]"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* CATEGORIES — ab saari categories dikhengi, scrollable list ke sath */}
+            <div>
+              <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Categories</h4>
+              <div className="categories-list space-y-2.5">
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    to={`/categories/${cat.slug}`}
+                    className="footer-text block text-sm text-white/55 transition hover:text-[#EAD3A1]"
+                  >
+                    {cat.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* VISIT US — address + rating (Stay Connected ki jagah) */}
+            <div>
+              <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Visit Us</h4>
+
+              {/* ADDRESS */}
+              <div className="flex items-start gap-3">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#C49B63]/20 bg-white/[0.04]">
+                  <MapPin size={13} className="text-[#EAD3A1]" />
+                </span>
+                <address className="footer-text text-sm not-italic leading-6 text-white/55">
+                  {ADDRESS_LINES.map((line, i) => (
+                    <span
+                      key={line}
+                      className={`block ${i === 0 ? "font-semibold text-white/80" : ""}`}
+                    >
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              </div>
+
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-text mt-3 inline-flex items-center gap-2 border-b border-[#C49B63]/40 pb-0.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#EAD3A1] transition hover:border-[#EAD3A1]"
+              >
+                Get Directions
+              </a>
+
+              {/* RATING CARD */}
+              <div className="mt-4 rounded-[20px] border border-[#C49B63]/15 bg-white/[0.04] px-4 py-3">
+                <div className="flex items-end gap-2">
+                  <span className="footer-brand text-3xl leading-none text-white">
+                    {RATING_SCORE}
+                  </span>
+                  <span className="footer-text pb-0.5 text-xs text-white/40">/ 5</span>
+                </div>
+
+                <div className="mt-2 flex gap-1" aria-label={`Rated ${RATING_SCORE} out of 5`}>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: 0.1 + i * 0.08, ease: "backOut" }}
+                      className="inline-flex"
+                    >
+                      <Star
+                        size={17}
+                        strokeWidth={0}
+                        fill={i < RATING_FILLED ? "#FBBC05" : "rgba(255,255,255,0.18)"}
+                      />
+                    </motion.span>
+                  ))}
+                </div>
+
+                <p className="footer-text mt-1.5 text-xs leading-5 text-white/50">
+                  {RATING_TEXT}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* INFO TAGS — clean white cards, same size & shape */}
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {infoTags.map(({ icon: Icon, label, href, to, noCaps }) => {
+              const classes =
+                "footer-text flex min-h-[56px] items-center gap-3 rounded-xl border border-[#EAD3A1]/40 bg-white px-4 py-3 text-[11px] font-bold text-[#070201] shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition duration-300";
+              const hover = "hover:-translate-y-0.5 hover:bg-[#FBF3E3]";
+
+              const content = (
+                <>
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7A1020]/10">
+                    <Icon size={16} className="text-[#7A1020]" />
+                  </span>
+                  <span
+                    className={`min-w-0 break-words ${
+                      noCaps ? "tracking-[0.04em]" : "uppercase tracking-[0.1em]"
+                    }`}
+                  >
+                    {label}
+                  </span>
+                </>
+              );
+
+              if (to) {
+                return (
+                  <Link key={label} to={to} className={`${classes} ${hover}`}>
+                    {content}
+                  </Link>
+                );
+              }
+
+              if (href) {
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target={href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className={`${classes} ${hover}`}
+                  >
+                    {content}
+                  </a>
+                );
+              }
+
+              return (
+                <div key={label} className={classes}>
+                  {content}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 flex flex-col items-center justify-between gap-1 border-t border-[#C49B63]/10 pt-3 sm:flex-row">
+            <p className="footer-text text-[10px] tracking-[0.15em] text-white/35">
+              © {new Date().getFullYear()} RAJPAL PRODUCTS — PURELY DIVINE
+            </p>
+            <p className="footer-text text-[10px] tracking-[0.12em] text-white/35">
+              Made by{" "}
+              <a
+                href="https://creadordesigns.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#C49B63] transition hover:text-[#EAD3A1]"
+              >
+                Creador Designs
+              </a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
+};
+
+export default Footer;
