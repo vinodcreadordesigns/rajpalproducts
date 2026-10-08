@@ -291,7 +291,7 @@ import imgFirdous from "../assets/images/perfume-incense/firdous.jpg";
 import imgFirdousHover from "../assets/images/perfume-incense/firdous-hover.jpg";
 import imgFreshperfume from "../assets/images/perfume-incense/freshperfume.jpg";
 import imgFreshperfumeHover from "../assets/images/perfume-incense/freshperfume-hover.jpg";
-import imgFresh from "../assets/images/perfume-incense/fresh.jpg";
+import imgFresh from "../assets/images/perfume-incense/Fresh.jpg";
 import imgFreshHover from "../assets/images/perfume-incense/fresh-hover.jpg";
 import imgguggalkapoor from "../assets/images/perfume-incense/guggalkapoor.jpg";
 import imgguggalkapoorHover from "../assets/images/perfume-incense/guggalkapoor-hover.jpg";
