@@ -1,19 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { memo } from "react";
-import { Phone, Mail, MapPin, Star, Globe2, RotateCcw } from "lucide-react";
+import { Phone, Mail, MapPin, Star, Globe2, RotateCcw, ChevronRight } from "lucide-react";
 
 import rajpalLogo from "../assets/rajpal logo PNG.png";
 
-import {
-  categories,
-  navLinks,
-} from "../data/siteData";
+import { categories, navLinks } from "../data/siteData";
 
-/* ───────────────── DIVINE IMAGES (local assets) ─────────────────
-   Place your images at: src/assets/images/footerimages/
-   Rename the files to match below, or update these import paths/names
-   to match whatever filenames you actually have in that folder. */
 import divineImg1 from "../assets/images/footerimages/divine-1.jpg";
 import divineImg2 from "../assets/images/footerimages/divine-2.jpg";
 import divineImg3 from "../assets/images/footerimages/divine-3.jpg";
@@ -21,19 +14,18 @@ import divineImg4 from "../assets/images/footerimages/divine-4.jpg";
 import divineImg5 from "../assets/images/footerimages/divine-5.jpg";
 import divineImg6 from "../assets/images/footerimages/divine-6.jpg";
 
-const divineImages = [
-  divineImg1,
-  divineImg2,
-  divineImg3,
-  divineImg4,
-  divineImg5,
-  divineImg6,
+const divineImages = [divineImg1, divineImg2, divineImg3, divineImg4, divineImg5, divineImg6];
+
+/* ───────────────── POLICY PAGE ROUTES ─────────────────
+   Dono ke liye alag page/file banao aur App.jsx mein ye routes add karo:
+   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+   <Route path="/return-exchange-policy" element={<ReturnExchangePolicy />} /> */
+const POLICY_LINKS = [
+  { label: "Privacy Policy", to: "/privacy-policy" },
+  { label: "Return & Exchange Policy", to: "/return-exchange-policy" },
 ];
 
-/* ───────────────── ADDRESS + RATING (yahin se edit karo) ─────────────────
-   Address ContactForm wala hi hai. Lines badalne par "Get Directions" ka
-   Google Maps link apne aap us address ke hisaab se ban jaata hai.
-   ⚠️ Rating (neeche) abhi placeholder hai, real score daal do. */
+/* ───────────────── ADDRESS + RATING ───────────────── */
 const ADDRESS_LINES = [
   "Rajpal Products",
   "Shop No.2, Vastu Matunga Co-operative Housing Society,",
@@ -41,17 +33,15 @@ const ADDRESS_LINES = [
   "Mumbai 400-019",
 ];
 
-const RATING_SCORE = "4.9"; // 5 mein se
-const RATING_FILLED = 5; // kitne stars gold dikhne chahiye (0 - 5)
+const RATING_SCORE = "4.9";
+const RATING_FILLED = 5;
 const RATING_TEXT = "Loved by 5000+ happy customers";
 
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   ADDRESS_LINES.join(", ")
 )}`;
 
-/* ───────────────── SOCIAL LINKS (yahin se edit karo) ─────────────────
-   ⚠️ LinkedIn aur Facebook ke link abhi placeholder hain.
-   Apne real page ka URL yahan daal do. */
+/* ───────────────── SOCIAL LINKS ───────────────── */
 const SOCIAL_LINKS = {
   instagram: "https://www.instagram.com/rajpalincense81?igsi=MWduOTB5bjZqMThs",
   whatsapp: "https://wa.me/919930670044",
@@ -104,7 +94,6 @@ const socials = [
   },
 ];
 
-/* Ek hi row component — brand, quick links aur categories ke niche reuse hota hai */
 const SocialIcons = memo(function SocialIcons() {
   return (
     <div className="mt-5 flex items-center gap-2.5">
@@ -130,23 +119,9 @@ const Particle = memo(function Particle({ delay, x, size }) {
   return (
     <motion.div
       className="pointer-events-none absolute rounded-full bg-[#C49B63] will-change-transform"
-      style={{
-        left: `${x}%`,
-        bottom: "0",
-        width: size,
-        height: size,
-      }}
-      animate={{
-        y: [-10, -90, -10],
-        opacity: [0, 0.7, 0],
-        scale: [0.7, 1.3, 0.7],
-      }}
-      transition={{
-        duration: 6 + delay,
-        repeat: Infinity,
-        delay,
-        ease: "easeInOut",
-      }}
+      style={{ left: `${x}%`, bottom: "0", width: size, height: size }}
+      animate={{ y: [-10, -90, -10], opacity: [0, 0.7, 0], scale: [0.7, 1.3, 0.7] }}
+      transition={{ duration: 6 + delay, repeat: Infinity, delay, ease: "easeInOut" }}
     />
   );
 });
@@ -159,20 +134,92 @@ const particles = [
   { delay: 3, x: 80, size: 4 },
 ];
 
-/* ───────────────── INFO TAGS (clean white cards) ─────────────────
-   Kisi tag ko page se link karna ho to `to: "/your-route"` add karo (internal page),
-   ya `href` (external / WhatsApp / mailto). Bina link wala tag sirf text card rahega. */
+/* ───────────────── INFO CARDS (4 equal cards) ─────────────────
+   title = chhota label, value = main text.
+   `to` = internal page, `href` = external/WhatsApp/mailto. */
 const infoTags = [
-  { icon: Globe2, label: "Shipping Worldwide" },
-  { icon: RotateCcw, label: "Return & Exchange Policy" },
-  { icon: Phone, label: "WhatsApp +91 99306 70044", href: "https://wa.me/919930670044" },
-  { icon: Mail, label: "info@rajpalproducts.com", href: "mailto:info@rajpalproducts.com", noCaps: true },
+  {
+    icon: Globe2,
+    title: "Delivery",
+    value: "Shipping Worldwide",
+  },
+  {
+    icon: RotateCcw,
+    title: "Hassle-free",
+    value: "Return & Exchange Policy",
+    to: "/return-exchange-policy",
+  },
+  {
+    icon: Phone,
+    title: "WhatsApp Us",
+    value: "+91 99306 70044",
+    href: "https://wa.me/919930670044",
+  },
+  {
+    icon: Mail,
+    title: "Email Us",
+    value: "info@rajpalproducts.com",
+    href: "mailto:info@rajpalproducts.com",
+  },
 ];
+
+const InfoCard = ({ icon: Icon, title, value, href, to }) => {
+  const base =
+    "group relative flex h-full min-h-[84px] items-center gap-4 overflow-hidden rounded-2xl border border-[#C49B63]/25 bg-gradient-to-br from-white/[0.07] to-white/[0.02] px-5 py-4 transition duration-300";
+  const hover =
+    "hover:-translate-y-1 hover:border-[#C49B63]/60 hover:from-[#C49B63]/15 hover:to-white/[0.03] hover:shadow-[0_14px_36px_rgba(196,155,99,0.15)]";
+
+  const content = (
+    <>
+      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#C49B63]/40 bg-[#C49B63]/10 text-[#EAD3A1] transition duration-300 group-hover:bg-[#C49B63] group-hover:text-[#070201]">
+        <Icon size={20} strokeWidth={1.8} />
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="footer-text block text-[10px] font-semibold uppercase tracking-[0.25em] text-[#C49B63]">
+          {title}
+        </span>
+        <span className="footer-text mt-1 block break-words text-[13px] font-semibold leading-snug tracking-[0.02em] text-white">
+          {value}
+        </span>
+      </span>
+
+      {(to || href) && (
+        <ChevronRight
+          size={16}
+          className="shrink-0 text-[#EAD3A1]/50 transition duration-300 group-hover:translate-x-1 group-hover:text-[#EAD3A1]"
+        />
+      )}
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={`${base} ${hover}`}>
+        {content}
+      </Link>
+    );
+  }
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel="noopener noreferrer"
+        className={`${base} ${hover}`}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return <div className={base}>{content}</div>;
+};
 
 const Footer = () => {
   return (
     <>
-      {/* PREMIUM FONT + MARQUEE CSS (pure CSS, no JS-driven rAF) */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -180,7 +227,6 @@ const Footer = () => {
         .footer-text{ font-family:'Inter', sans-serif; letter-spacing:0.03em; }
         .footer-brand{ font-family:'Cinzel', serif; font-weight:900; letter-spacing:0.22em; }
 
-        /* CSS-only marquee: GPU-composited transform, no re-render, no backdrop-blur mixed in */
         .marquee-track{
           display:flex;
           width:max-content;
@@ -200,14 +246,9 @@ const Footer = () => {
           .marquee-track{ animation: none; }
         }
 
-        .gallery-card{
-          transition: transform 0.35s ease;
-        }
-        .gallery-card:hover{
-          transform: scale(1.04) translateY(-8px);
-        }
+        .gallery-card{ transition: transform 0.35s ease; }
+        .gallery-card:hover{ transform: scale(1.04) translateY(-8px); }
 
-        /* Scrollable categories list so ALL categories fit without breaking layout */
         .categories-list{
           max-height: 190px;
           overflow-y: auto;
@@ -219,10 +260,9 @@ const Footer = () => {
       `}</style>
 
       <footer className="relative overflow-hidden bg-[#070201]">
-        {/* TOP BORDER */}
         <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#C49B63]/60 to-transparent" />
 
-        {/* ─────────── 3D GALLERY (CSS marquee, no backdrop-blur here) ─────────── */}
+        {/* GALLERY */}
         <div className="relative z-20 overflow-hidden border-b border-[#C49B63]/10 bg-black/60 py-8">
           <div className="marquee-track">
             {[...divineImages, ...divineImages].map((img, i) => (
@@ -243,9 +283,7 @@ const Footer = () => {
                     <p className="footer-heading text-xs uppercase tracking-[0.3em] text-[#EAD3A1]">
                       Divine Collection
                     </p>
-                    <h3 className="mt-2 text-xl font-semibold text-white">
-                      Premium Spiritual
-                    </h3>
+                    <h3 className="mt-2 text-xl font-semibold text-white">Premium Spiritual</h3>
                   </div>
                 </div>
               </div>
@@ -253,7 +291,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* AMBIENT GLOW — static now, no scroll-linked transform (that was recalculating every scroll frame) */}
+        {/* AMBIENT GLOW */}
         <div className="pointer-events-none absolute inset-0 z-0">
           <div className="absolute left-[10%] top-[25%] h-96 w-96 rounded-full bg-[#7A1020]/10 blur-[100px]" />
           <div className="absolute right-[10%] top-[40%] h-80 w-80 rounded-full bg-[#C49B63]/10 blur-[100px]" />
@@ -267,7 +305,7 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* MAIN FOOTER CONTENT */}
+        {/* MAIN CONTENT */}
         <div className="relative z-20 mx-auto max-w-7xl px-6 pb-5 pt-10">
           <div className="grid gap-8 md:grid-cols-4">
             {/* BRAND */}
@@ -277,19 +315,12 @@ const Footer = () => {
                 animate={{ y: [0, -2, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               >
-                <img
-                  src={rajpalLogo}
-                  alt="Rajpal Products"
-                  className="h-full w-full object-contain drop-shadow-sm"
-                />
+                <img src={rajpalLogo} alt="Rajpal Products" className="h-full w-full object-contain drop-shadow-sm" />
               </motion.div>
               <div className="mb-4 h-px w-24 bg-gradient-to-r from-[#C49B63]/60 to-transparent" />
               <p className="footer-text text-sm leading-6 text-white/55">
-                Premium spiritual fragrance collections crafted with
-                devotion, heritage and timeless Indian elegance since 1981.
+                Premium spiritual fragrance collections crafted with devotion, heritage and timeless Indian elegance since 1981.
               </p>
-
-              {/* Social icons — logo + text ke niche */}
               <SocialIcons />
             </div>
 
@@ -307,9 +338,23 @@ const Footer = () => {
                   </Link>
                 ))}
               </div>
+
+              {/* POLICIES — alag pages */}
+              <h4 className="footer-heading mb-4 mt-7 text-xs uppercase text-[#EAD3A1]">Policies</h4>
+              <div className="space-y-2.5">
+                {POLICY_LINKS.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className="footer-text block text-sm text-white/55 transition hover:text-[#EAD3A1]"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            {/* CATEGORIES — ab saari categories dikhengi, scrollable list ke sath */}
+            {/* CATEGORIES */}
             <div>
               <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Categories</h4>
               <div className="categories-list space-y-2.5">
@@ -325,21 +370,17 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* VISIT US — address + rating (Stay Connected ki jagah) */}
+            {/* VISIT US */}
             <div>
               <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Visit Us</h4>
 
-              {/* ADDRESS */}
               <div className="flex items-start gap-3">
                 <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#C49B63]/20 bg-white/[0.04]">
                   <MapPin size={13} className="text-[#EAD3A1]" />
                 </span>
                 <address className="footer-text text-sm not-italic leading-6 text-white/55">
                   {ADDRESS_LINES.map((line, i) => (
-                    <span
-                      key={line}
-                      className={`block ${i === 0 ? "font-semibold text-white/80" : ""}`}
-                    >
+                    <span key={line} className={`block ${i === 0 ? "font-semibold text-white/80" : ""}`}>
                       {line}
                     </span>
                   ))}
@@ -355,12 +396,9 @@ const Footer = () => {
                 Get Directions
               </a>
 
-              {/* RATING CARD */}
               <div className="mt-4 rounded-[20px] border border-[#C49B63]/15 bg-white/[0.04] px-4 py-3">
                 <div className="flex items-end gap-2">
-                  <span className="footer-brand text-3xl leading-none text-white">
-                    {RATING_SCORE}
-                  </span>
+                  <span className="footer-brand text-3xl leading-none text-white">{RATING_SCORE}</span>
                   <span className="footer-text pb-0.5 text-xs text-white/40">/ 5</span>
                 </div>
 
@@ -383,69 +421,36 @@ const Footer = () => {
                   ))}
                 </div>
 
-                <p className="footer-text mt-1.5 text-xs leading-5 text-white/50">
-                  {RATING_TEXT}
-                </p>
+                <p className="footer-text mt-1.5 text-xs leading-5 text-white/50">{RATING_TEXT}</p>
               </div>
             </div>
           </div>
 
-          {/* INFO TAGS — clean white cards, same size & shape */}
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {infoTags.map(({ icon: Icon, label, href, to, noCaps }) => {
-              const classes =
-                "footer-text flex min-h-[56px] items-center gap-3 rounded-xl border border-[#EAD3A1]/40 bg-white px-4 py-3 text-[11px] font-bold text-[#070201] shadow-[0_8px_24px_rgba(0,0,0,0.3)] transition duration-300";
-              const hover = "hover:-translate-y-0.5 hover:bg-[#FBF3E3]";
-
-              const content = (
-                <>
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7A1020]/10">
-                    <Icon size={16} className="text-[#7A1020]" />
-                  </span>
-                  <span
-                    className={`min-w-0 break-words ${
-                      noCaps ? "tracking-[0.04em]" : "uppercase tracking-[0.1em]"
-                    }`}
-                  >
-                    {label}
-                  </span>
-                </>
-              );
-
-              if (to) {
-                return (
-                  <Link key={label} to={to} className={`${classes} ${hover}`}>
-                    {content}
-                  </Link>
-                );
-              }
-
-              if (href) {
-                return (
-                  <a
-                    key={label}
-                    href={href}
-                    target={href.startsWith("http") ? "_blank" : undefined}
-                    rel="noopener noreferrer"
-                    className={`${classes} ${hover}`}
-                  >
-                    {content}
-                  </a>
-                );
-              }
-
-              return (
-                <div key={label} className={classes}>
-                  {content}
-                </div>
-              );
-            })}
+          {/* INFO CARDS — 1 col mobile, 2 col tablet, 4 col desktop; sab same height */}
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {infoTags.map((tag) => (
+              <InfoCard key={tag.title} {...tag} />
+            ))}
           </div>
 
-          <div className="mt-6 flex flex-col items-center justify-between gap-1 border-t border-[#C49B63]/10 pt-3 sm:flex-row">
+          {/* BOTTOM BAR */}
+          <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-[#C49B63]/10 pt-4 md:flex-row">
             <p className="footer-text text-[10px] tracking-[0.15em] text-white/35">
               © {new Date().getFullYear()} RAJPAL PRODUCTS — PURELY DIVINE
             </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+              {POLICY_LINKS.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="footer-text text-[10px] uppercase tracking-[0.15em] text-white/45 transition hover:text-[#EAD3A1]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
             <p className="footer-text text-[10px] tracking-[0.12em] text-white/35">
               Made by{" "}
               <a

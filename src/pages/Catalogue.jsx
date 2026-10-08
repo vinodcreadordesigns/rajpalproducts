@@ -9,19 +9,25 @@ import { productCatalog } from "../data/siteData";
 const HEADING = { fontFamily: "'Playfair Display', Georgia, serif" };
 const BODY = { fontFamily: "'Inter', system-ui, sans-serif" };
 
-/* ───────────── CATALOGUE PDF (sirf yahi ek line badlo) ─────────────
-   Option 1: site par hi rakho (PDF 100 MB se chhoti ho):
-     const CATALOGUE_FILE = "/catalogue.pdf";      // public/catalogue.pdf
-   Option 2: bahar ka sirf-PDF link (GitHub Releases / Dropbox ?dl=1):
-     const CATALOGUE_FILE = "https://github.com/.../catalogue.pdf";
+/* ───────────── CATALOGUE PDF (Google Drive) ─────────────
+   Abhi folder link use ho raha hai (View + Download dono isi par khulenge).
+   Direct download chahiye to PDF ki FILE ID daalo:
+     https://drive.google.com/file/d/<FILE_ID>/view  -> DRIVE_FILE_ID = "<FILE_ID>"
 */
-const CATALOGUE_FILE = "/catalogue.pdf";
-const CATALOGUE_DOWNLOAD_NAME = "Rajpal-Products-Catalogue.pdf";
-const CATALOGUE_COVER = "/catalogue-cover.png";
+const CATALOGUE_FOLDER_URL = "https://drive.google.com/drive/folders/1-UZDoAZXoRAy2sNLcTRavNmePF1UhCw1";
+const DRIVE_FILE_ID = ""; // optional
 
-// download attribute sirf apni site ki file par chalta hai
-const IS_EXTERNAL = /^https?:\/\//.test(CATALOGUE_FILE);
-const downloadProps = IS_EXTERNAL ? {} : { download: CATALOGUE_DOWNLOAD_NAME };
+// View: file ID ho to PDF preview, warna folder
+const CATALOGUE_VIEW_URL = DRIVE_FILE_ID
+  ? `https://drive.google.com/file/d/${DRIVE_FILE_ID}/view`
+  : CATALOGUE_FOLDER_URL;
+
+// Download: file ID ho to seedha download, warna folder
+const CATALOGUE_DOWNLOAD_URL = DRIVE_FILE_ID
+  ? `https://drive.google.com/uc?export=download&id=${DRIVE_FILE_ID}`
+  : CATALOGUE_FOLDER_URL;
+
+const CATALOGUE_COVER = "/catalogue-cover.png";
 
 /* ───────────── HOT SELLING PICKS (siteData.js se) ───────────── */
 const TRENDING_PICKS = [
@@ -196,9 +202,9 @@ const Catalogue = () => (
               Get complete product details, specifications and pricing in our latest trading catalog.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              {/* View: Google Drive viewer naye tab me */}
+              {/* View: Google Drive preview naye tab me */}
               <a
-                href={CATALOGUE_FILE}
+                href={CATALOGUE_VIEW_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#7A1020] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#7A1020]/25 transition-all hover:-translate-y-0.5 hover:bg-[#4A0712] focus:outline-none focus-visible:ring-4 focus-visible:ring-[#7A1020]/30 sm:w-auto"
@@ -207,10 +213,11 @@ const Catalogue = () => (
                 View Catalog
               </a>
 
-              {/* Download: Drive se seedha download (external link, isliye download attribute nahi) */}
+              {/* Download: Drive se seedha download */}
               <a
-                href={CATALOGUE_FILE}
-                {...downloadProps}
+                href={CATALOGUE_DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#7A1020] bg-white px-6 py-3.5 text-sm font-semibold text-[#7A1020] transition-all hover:-translate-y-0.5 hover:bg-[#7A1020] hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-[#7A1020]/30 sm:w-auto"
               >
                 <Download size={17} />
@@ -232,7 +239,7 @@ const Catalogue = () => (
           </div>
 
           <a
-            href={CATALOGUE_FILE}
+            href={CATALOGUE_VIEW_URL}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open catalogue"

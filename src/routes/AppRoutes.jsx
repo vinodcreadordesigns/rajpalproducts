@@ -6,6 +6,8 @@ import Contact from "../pages/Contact";
 import Catalogue from "../pages/Catalogue";
 import Home from "../pages/Home";
 import Services from "../pages/Services";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import ReturnExchangePolicy from "../pages/ReturnExchangePolicy";
 import DhupCupspage from "../pages/categories/DhupCupspage";
 import DhoopSticksPage from "../pages/categories/DhoopSticksPage";
 import IncenseSticksPage from "../pages/categories/IncenseSticksPage";
@@ -16,7 +18,7 @@ import PoojaDeepPage from "../pages/categories/PoojaDeepPage";
 import NaturalInsencePage from "../pages/categories/NaturalInsencePage";
 import PerfumeRollonPage from "../pages/categories/PerfumeRollonPage";
 import AirFresheners from "../pages/categories/AirFresheners";
-import RawDhoop from "../pages/categories/RawDhoop"
+import RawDhoop from "../pages/categories/RawDhoop";
 
 const AppRoutes = () => (
   <Routes>
@@ -27,6 +29,10 @@ const AppRoutes = () => (
       <Route path="/contact" element={<Contact />} />
       <Route path="/catalogue" element={<Catalogue />} />
       <Route path="/services" element={<Services />} />
+
+      {/* Policy pages */}
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/return-exchange-policy" element={<ReturnExchangePolicy />} />
 
       <Route path="/categories/incense-sticks" element={<IncenseSticksPage />} />
       <Route path="/categories/dhoop-sticks" element={<DhoopSticksPage />} />
@@ -39,6 +45,7 @@ const AppRoutes = () => (
       <Route path="/categories/perfume-rollon" element={<PerfumeRollonPage />} />
       <Route path="/categories/air-fresheners" element={<AirFresheners />} />
       <Route path="/categories/raw-dhoop" element={<RawDhoop />} />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Route>
   </Routes>
