@@ -368,7 +368,7 @@ import imgsignatureHover from "../assets/images/perfume-incense/signature-hover.
 
 // fruist
 
-import imgGrapes from "../assets/images/fruites/grapes.jpg";
+import imgGrapes from "../assets/images/fruites/Grapes.jpg";
 import imgGrapesHover from "../assets/images/fruites/grapes-hover.jpg";
 import imgPeach from "../assets/images/fruites/peach.jpg";
 import imgPeachHover from "../assets/images/fruites/peach-hover.jpg";
