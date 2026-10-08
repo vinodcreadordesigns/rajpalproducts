@@ -5,27 +5,25 @@ import { productCatalog } from "../data/siteData";
 /* ───────────── TOKENS (Maroon theme) ─────────────
    Maroon #7A1020 | Maroon Deep #4A0712 | Gold #C9A24B
    Tint (light maroon) #FBF1F0 | Tint 2 #F5DEDE | Cream #FFF9F7 | Ink #1F2A27
-   Fonts (index.html <head>):
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 */
 const HEADING = { fontFamily: "'Playfair Display', Georgia, serif" };
 const BODY = { fontFamily: "'Inter', system-ui, sans-serif" };
 
-/* ───────────── CATALOGUE FILES ─────────────
-   Files ko PROJECT ROOT ke public/ folder me rakho:
-     public/catalogue.pdf
-     public/catalogue-cover.png
-   (Vite use kar rahe ho. CRA ho to neeche wali line ki jagah:
-     const BASE = process.env.PUBLIC_URL + "/";)
+/* ───────────── CATALOGUE PDF (sirf yahi ek line badlo) ─────────────
+   Option 1: site par hi rakho (PDF 100 MB se chhoti ho):
+     const CATALOGUE_FILE = "/catalogue.pdf";      // public/catalogue.pdf
+   Option 2: bahar ka sirf-PDF link (GitHub Releases / Dropbox ?dl=1):
+     const CATALOGUE_FILE = "https://github.com/.../catalogue.pdf";
 */
-const BASE = import.meta.env?.BASE_URL ?? "/";
-const CATALOGUE_FILE = `${BASE}catalogue.pdf`;
-const CATALOGUE_COVER = `${BASE}catalogue-cover.png`;
-const CATALOGUE_DOWNLOAD_NAME = "Rajpal-Products-Catalogue.pdf"; // download hone par ye naam dikhega
+const CATALOGUE_FILE = "/catalogue.pdf";
+const CATALOGUE_DOWNLOAD_NAME = "Rajpal-Products-Catalogue.pdf";
+const CATALOGUE_COVER = "/catalogue-cover.png";
 
-/* ───────────── HOT SELLING PICKS (siteData.js se) ─────────────
-   Order yahi grid ka order hai.
-   category = productCatalog ka key | id = product ka id | series = label */
+// download attribute sirf apni site ki file par chalta hai
+const IS_EXTERNAL = /^https?:\/\//.test(CATALOGUE_FILE);
+const downloadProps = IS_EXTERNAL ? {} : { download: CATALOGUE_DOWNLOAD_NAME };
+
+/* ───────────── HOT SELLING PICKS (siteData.js se) ───────────── */
 const TRENDING_PICKS = [
   { category: "incense-sticks",  id: "exotic-rose",              series: "Exotic Series" },
   { category: "incense-sticks",  id: "premium-oudh",             series: "Premium Series" },
@@ -198,7 +196,7 @@ const Catalogue = () => (
               Get complete product details, specifications and pricing in our latest trading catalog.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              {/* View: naye tab me PDF kholta hai */}
+              {/* View: Google Drive viewer naye tab me */}
               <a
                 href={CATALOGUE_FILE}
                 target="_blank"
@@ -209,10 +207,10 @@ const Catalogue = () => (
                 View Catalog
               </a>
 
-              {/* Download: seedha save hota hai */}
+              {/* Download: Drive se seedha download (external link, isliye download attribute nahi) */}
               <a
                 href={CATALOGUE_FILE}
-                download={CATALOGUE_DOWNLOAD_NAME}
+                {...downloadProps}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-[#7A1020] bg-white px-6 py-3.5 text-sm font-semibold text-[#7A1020] transition-all hover:-translate-y-0.5 hover:bg-[#7A1020] hover:text-white focus:outline-none focus-visible:ring-4 focus-visible:ring-[#7A1020]/30 sm:w-auto"
               >
                 <Download size={17} />
