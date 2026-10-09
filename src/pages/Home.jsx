@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -19,10 +19,12 @@ import ContactForm from "../components/ContactForm";
 import FAQAccordion from "../components/FAQAccordion";
 import Hero from "../components/Hero";
 import CategoryCard from "../components/CategoryCard";
+import TestimonialCard, { ReviewSummary } from "../components/TestimonialCard";
 
 import { categories, faqs, productCatalog } from "../data/siteData";
 import DhoopBattiImage from "../assets/images/BB-DhoopBatti.jpg";
 import BrandHeritage from "../assets/images/brand-heritage.jpg";
+import GiftBanner from "../assets/images/gift-banner.jpg"; // banner background image
 
 // import rajpalsince from "../assets/imagesince/rajpalsince.png";
 
@@ -559,6 +561,94 @@ function CategoryScroller({ items }) {
   );
 }
 
+/* ---------- ACTION BUTTON (sabhi buttons ke liye same style + animation) ----------
+   - gold pulse ring + shine sweep + arrow (hover par slide)
+   - `to` do to <Link> banega, `onClick` do to <button>
+   - spacing ke liye className se margin pass karo (jaise "mt-6") */
+function ActionButton({ to, onClick, children, className = "" }) {
+  const base =
+    "banner-btn group/btn relative inline-flex w-fit items-center justify-center gap-2 overflow-hidden rounded-2xl bg-gradient-to-r from-[#7a1020] to-[#4a0712] px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-white transition duration-500 hover:scale-105 sm:px-8 sm:py-4 sm:text-sm";
+
+  const inner = (
+    <>
+      <span className="relative z-10">{children}</span>
+      <ArrowUpRight
+        size={16}
+        className="relative z-10 shrink-0 transition-transform duration-300 group-hover/btn:-translate-y-0.5 group-hover/btn:translate-x-1"
+      />
+      {/* shine sweep */}
+      <span className="banner-shine pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/30" />
+    </>
+  );
+
+  if (to) {
+    return (
+      <Link to={to} className={`${base} ${className}`}>
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <button type="button" onClick={onClick} className={`${base} ${className}`}>
+      {inner}
+    </button>
+  );
+}
+
+/* ---------- PREMIUM COLLECTIONS BANNER ----------
+   Full-width background image + black overlay, content bich mein */
+function PremiumBanner() {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <section className="w-full py-6 sm:py-10 lg:py-12">
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7 }}
+        className="group relative isolate flex min-h-[340px] w-full items-center justify-center overflow-hidden bg-[#1a0a0f] sm:min-h-[400px] lg:min-h-[480px]"
+      >
+        {/* BACKGROUND IMAGE */}
+        <img
+          src={GiftBanner}
+          alt="Rajpal premium incense collection"
+          loading="lazy"
+          draggable={false}
+          className="absolute inset-0 -z-20 h-full w-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+        />
+
+        {/* BLACK LIGHT EFFECT — image ke upar dark overlay + soft center glow */}
+        <div className="absolute inset-0 -z-10 bg-black/60" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.75)_100%)]" />
+        <div className="banner-glow absolute left-1/2 top-1/2 -z-10 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:h-[380px] sm:w-[380px]" />
+
+        {/* CENTER CONTENT */}
+        <div className="px-6 py-10 text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#e6c06a] sm:text-sm">
+            Premium Collections
+          </p>
+
+          <h2 className="gold-heading text-[28px] sm:text-[42px] lg:text-[56px]">
+            Divine Fragrances <br />
+            For Every Pooja
+          </h2>
+
+          <div className="mx-auto mt-4 h-[2px] w-40 bg-gradient-to-r from-transparent via-[#b68a35] to-transparent sm:mt-5 sm:w-56" />
+
+          <p className="lux-font mx-auto mt-4 max-w-md text-[13px] leading-7 text-white/90 sm:text-[15px] sm:leading-8">
+            Agarbatti, dhoop batti and natural incense, crafted since 1981.
+          </p>
+
+          <ActionButton to="/categories" className="mt-6 sm:mt-8">
+            Shop Now
+          </ActionButton>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 /* ---------- Why Choose Us steps ---------- */
 const whyChooseSteps = [
   { icon: Handshake, label: "Global Trust Since 1981" },
@@ -623,131 +713,146 @@ function TrustSection() {
   );
 }
 
-/* ---------- Google-review-style testimonials with autoscroll ---------- */
+/* ---------- GOOGLE REVIEWS ----------
+   Cards TestimonialCard.jsx se aate hain.
+   Real photo chahiye to review mein  photo: "/images/reviews/name.jpg"  add karo. */
+const TOTAL_REVIEWS = 98;
+
 const googleReviews = [
-  { name: "Priya Sharma", initials: "PS", rating: 5, date: "2 weeks ago", text: "Amazing fragrance quality my temple smells divine every morning. Highly recommend Rajpal products!" },
-  { name: "Anil Mehta", initials: "AM", rating: 5, date: "1 month ago", text: "Been using their agarbatti for years. Consistent quality and long-lasting aroma, perfect for daily pooja." },
-  { name: "Sunita Rao", initials: "SR", rating: 4, date: "3 weeks ago", text: "Lovely packaging and the dhoop batti burns evenly. Will order again for Diwali." },
-  { name: "Rajesh Kumar", initials: "RK", rating: 5, date: "1 week ago", text: "Best incense sticks I've used. My retail customers love the fragrance variety too." },
-  { name: "Meena Iyer", initials: "MI", rating: 5, date: "2 months ago", text: "Authentic, traditional scents. Reminds me of my grandmother's pooja room  truly divine." },
+  { name: "Nikhil Arane",   avatarColor: "#a63fc4", time: "6 months ago", rating: 5, text: "All Good products." },
+  { name: "Hemant Joshi",   avatarColor: "#7a1020", time: "6 months ago", rating: 5, text: "Divinely committed and amazing products." },
+  { name: "Hemant Gabhane", avatarColor: "#1a0a0f", time: "6 months ago", rating: 5, text: "Nice variety of agarbattis and dhoop, specially must try their herbal sticks." },
+  { name: "Priya Sharma",   avatarColor: "#0f9d58", time: "2 weeks ago",  rating: 5, text: "Amazing fragrance quality, my temple smells divine every morning. Highly recommend Rajpal products!" },
+  { name: "Anil Mehta",     avatarColor: "#4285f4", time: "1 month ago",  rating: 5, text: "Been using their agarbatti for years. Consistent quality and long-lasting aroma, perfect for daily pooja." },
+  { name: "Sunita Rao",     avatarColor: "#e8710a", time: "3 weeks ago",  rating: 5, text: "Lovely packaging and the dhoop batti burns evenly. Will order again for Diwali." },
 ];
 
-function StarRow({ rating = 5 }) {
-  return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <Star
-          key={i}
-          size={16}
-          strokeWidth={0}
-          fill={i < rating ? "#FBBC05" : "#e5ded2"}
-        />
-      ))}
-    </div>
-  );
-}
+const REVIEW_STEP_MS = 3500;
 
-function ReviewCard({ review }) {
-  return (
-    <div
-      className="
-        flex h-full flex-col justify-between
-        rounded-2xl border border-[#7a1020]/10 bg-white
-        p-5 sm:p-7
-        shadow-[0_15px_45px_rgba(122,16,32,0.08)]
-      "
-    >
-      <div>
-        <div className="mb-3 flex items-center justify-between">
-          <StarRow rating={review.rating} />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[#9c8a6f]">
-            {review.date}
-          </span>
-        </div>
-        <p className="text-[14.5px] leading-7 text-[#3d2200]">
-          {review.text}
-        </p>
-      </div>
+/* swipe + arrows + auto-scroll (loops back to start) */
+function ReviewScroller({ reviews }) {
+  const scrollRef = useRef(null);
+  const pausedRef = useRef(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
-      <div className="mt-5 flex items-center gap-3 border-t border-[#7a1020]/10 pt-4 sm:mt-6">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7a1020] to-[#4a0712] text-sm font-semibold text-white">
-          {review.initials}
-        </div>
-        <div className="min-w-0">
-          <p className="truncate text-[14px] font-semibold text-[#2f1b00]">
-            {review.name}
-          </p>
-          <p className="text-[12px] text-[#8a7a63]">Verified customer</p>
-        </div>
-      </div>
-    </div>
-  );
-}
+  const updateEdges = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 4);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
+  };
 
-const HOLD_MS = 1000; // pause between slides
+  const stepSize = () => {
+    const el = scrollRef.current;
+    const first = el?.firstElementChild;
+    if (!el || !first) return 0;
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 16;
+    return first.getBoundingClientRect().width + gap;
+  };
 
-function GoogleTestimonials({ reviews }) {
-  const [visibleCount, setVisibleCount] = useState(3);
-  const [index, setIndex] = useState(0);
-  const timerRef = useRef(null);
+  const go = (dir) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * stepSize(), behavior: "smooth" });
+  };
 
   useEffect(() => {
-    const updateCount = () => {
-      if (window.innerWidth < 640) setVisibleCount(1);
-      else if (window.innerWidth < 1024) setVisibleCount(2);
-      else setVisibleCount(3);
-    };
-    updateCount();
-    window.addEventListener("resize", updateCount);
-    return () => window.removeEventListener("resize", updateCount);
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return undefined;
+    const id = setInterval(() => {
+      const el = scrollRef.current;
+      if (!el || pausedRef.current || document.hidden) return;
+      if (el.scrollLeft + el.clientWidth >= el.scrollWidth - 4) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: stepSize(), behavior: "smooth" });
+      }
+    }, REVIEW_STEP_MS);
+    return () => clearInterval(id);
   }, []);
 
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % reviews.length);
-    }, HOLD_MS + 700); // hold + slide duration
-    return () => clearInterval(timerRef.current);
-  }, [reviews.length]);
+    updateEdges();
+    window.addEventListener("resize", updateEdges);
+    return () => window.removeEventListener("resize", updateEdges);
+  }, []);
 
-  const visibleReviews = Array.from({ length: visibleCount }, (_, i) => {
-    const r = reviews[(index + i) % reviews.length];
-    return { ...r, _key: `${(index + i) % reviews.length}-${index}` };
-  });
+  const arrow =
+    "absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full shadow-md transition disabled:pointer-events-none disabled:opacity-0";
 
   return (
-    <div className="relative overflow-hidden">
-      <div
-        className="grid gap-4 sm:gap-5"
-        style={{
-          gridTemplateColumns: `repeat(${visibleCount}, minmax(0, 1fr))`,
-        }}
+    <div
+      className="relative w-full min-w-0 flex-1"
+      onMouseEnter={() => (pausedRef.current = true)}
+      onMouseLeave={() => (pausedRef.current = false)}
+      onTouchStart={() => (pausedRef.current = true)}
+      onTouchEnd={() => setTimeout(() => (pausedRef.current = false), 2500)}
+    >
+      <button
+        onClick={() => go(-1)}
+        disabled={atStart}
+        aria-label="Previous reviews"
+        className={`${arrow} left-1 sm:left-0 sm:-translate-x-1/2 bg-[#4a4a4a] text-white hover:bg-[#222]`}
       >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {visibleReviews.map((review, i) => (
-            <motion.div
-              key={review._key}
-              initial={{ opacity: 0, x: 40, scale: 0.98 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -40, scale: 0.98 }}
-              transition={{ duration: 0.6, ease: "easeInOut", delay: i * 0.05 }}
-            >
-              <ReviewCard review={review} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
+        <ChevronLeft size={20} />
+      </button>
 
-      <div className="mt-6 flex justify-center gap-2 sm:mt-8">
-        {reviews.map((_, i) => (
-          <span
-            key={i}
-            className={`h-1.5 rounded-full transition-all duration-500 ${
-              i === index ? "w-6 bg-[#7a1020]" : "w-1.5 bg-[#7a1020]/20"
-            }`}
-          />
+      <div
+        ref={scrollRef}
+        onScroll={updateEdges}
+        className="hide-scrollbar flex w-full snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth px-1 py-3 sm:gap-5"
+      >
+        {reviews.map((review) => (
+          <div
+            key={review.name + review.time}
+            className="
+              shrink-0 snap-start
+              basis-[86%]
+              min-[480px]:basis-[calc(50%_-_8px)]
+              sm:basis-[calc(50%_-_10px)]
+              lg:basis-[calc(33.333%_-_14px)]
+            "
+          >
+            <TestimonialCard item={review} />
+          </div>
         ))}
       </div>
+
+      <button
+        onClick={() => go(1)}
+        disabled={atEnd}
+        aria-label="Next reviews"
+        className={`${arrow} right-1 sm:right-0 sm:translate-x-1/2 border border-[#ddd] bg-white text-[#222] hover:bg-[#f3f3f3]`}
+      >
+        <ChevronRight size={20} />
+      </button>
     </div>
+  );
+}
+
+function GoogleReviewsSection() {
+  return (
+    <section className="overflow-x-clip bg-[#fff8f2]">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:py-12 lg:py-14">
+        {/* heading with side lines */}
+        <div className="mb-8 flex items-center justify-center gap-4 sm:mb-10">
+          <span className="hidden h-px w-20 bg-[#e6d6c3] sm:block lg:w-28" />
+          <h2 className="section-heading text-center text-[21px] min-[400px]:text-[26px] sm:text-[34px] md:text-[40px]">
+            Customer Reviews
+          </h2>
+          <span className="hidden h-px w-20 bg-[#e6d6c3] sm:block lg:w-28" />
+        </div>
+
+        {/* summary left (desktop) / top (mobile), scrolling cards right */}
+        <div className="flex flex-col items-stretch gap-5 lg:flex-row lg:items-center lg:gap-10">
+          <div className="w-full lg:w-[220px] lg:shrink-0">
+            <ReviewSummary total={TOTAL_REVIEWS} />
+          </div>
+          <ReviewScroller reviews={googleReviews} />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -779,6 +884,46 @@ const Home = () => {
           );
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+
+        /* Gold heading — dark/image background ke liye (Gift banner) */
+        .gold-heading {
+          font-family: 'Cinzel', serif;
+          font-weight: 800;
+          letter-spacing: 1px;
+          line-height: 1.2;
+          background: linear-gradient(90deg, #f5d98b 0%, #c9983a 50%, #f5d98b 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        /* Common button animation (ActionButton) */
+        .banner-btn {
+          animation: bannerPulse 2.4s ease-in-out infinite;
+        }
+        .banner-shine {
+          animation: bannerShine 3s ease-in-out infinite;
+        }
+        .banner-glow {
+          background: radial-gradient(circle, rgba(182,138,53,0.28) 0%, transparent 70%);
+          animation: bannerGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes bannerPulse {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(182,138,53,0.55); }
+          50%      { box-shadow: 0 0 0 14px rgba(182,138,53,0); }
+        }
+        @keyframes bannerShine {
+          0%   { transform: translateX(0) skewX(-12deg); }
+          60%, 100% { transform: translateX(480%) skewX(-12deg); }
+        }
+        @keyframes bannerGlow {
+          0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+          50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .banner-btn, .banner-shine, .banner-glow { animation: none; }
         }
 
         .hide-scrollbar::-webkit-scrollbar {
@@ -845,35 +990,8 @@ const Home = () => {
         </div>
       </section>
 
-      {/* PREMIUM COLLECTIONS */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:py-10 lg:py-12">
-        <div className="mb-6 text-center sm:mb-8">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#7a1020] sm:text-sm">
-            Premium Collections
-          </p>
-
-          <h2 className="section-heading text-[28px] sm:text-[38px] md:text-[52px]">
-            Curated Signature Fragrance Lines
-          </h2>
-        </div>
-
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
-          {["Royal Oud", "Temple Sandal", "Divine Floral"].map((item) => (
-            <article
-              key={item}
-              className="border border-[#7a1020]/10 bg-white/70 p-5 shadow-lg backdrop-blur-xl transition duration-500 hover:-translate-y-2 hover:shadow-2xl sm:p-8"
-            >
-              <div className="mb-4 h-1 w-16 rounded-full bg-gradient-to-r from-[#7a1020] to-[#b68a35] sm:mb-5" />
-
-              <h3 className="section-heading text-[22px] sm:text-[26px]">{item}</h3>
-
-              <p className="mt-3 text-[14px] leading-7 text-[#6d4c41] sm:mt-4 sm:text-[15px]">
-                Luxury showcase block for your real catalog sections.
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* PREMIUM COLLECTIONS — full-width banner */}
+      <PremiumBanner />
 
       {/* MAIN BANNER */}
       <section className="mx-auto max-w-7xl px-4 py-4 sm:py-6">
@@ -894,12 +1012,9 @@ const Home = () => {
               for your divine celebrations.
             </p>
 
-            <Link
-              to="/categories"
-              className="mt-6 inline-block w-fit rounded-2xl bg-gradient-to-r from-[#7a1020] to-[#4a0712] px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.25em] text-white transition duration-500 hover:scale-105 hover:shadow-[0_15px_40px_rgba(122,16,32,0.25)] sm:mt-8 sm:px-8 sm:py-4 sm:text-sm"
-            >
+            <ActionButton to="/categories" className="mt-6 sm:mt-8">
               Shop Now
-            </Link>
+            </ActionButton>
           </div>
 
           <div className="relative flex items-center justify-center p-4 sm:p-6">
@@ -949,21 +1064,12 @@ const Home = () => {
               )}
             </p>
 
-            <button
+            <ActionButton
               onClick={() => setShowMore(!showMore)}
-              className="
-                mt-5 w-fit rounded-full sm:mt-6
-                bg-gradient-to-r from-[#7a1020] to-[#4a0712]
-                px-6 py-3
-                text-sm font-semibold uppercase tracking-[0.2em]
-                text-white
-                transition-all duration-300
-                hover:scale-105
-                hover:shadow-[0_10px_30px_rgba(122,16,32,0.25)]
-              "
+              className="mt-5 sm:mt-6"
             >
               {showMore ? "Show Less" : "Learn More"}
-            </button>
+            </ActionButton>
           </div>
         </div>
       </section>
@@ -971,20 +1077,8 @@ const Home = () => {
       {/* TRUST & WHY CHOOSE US */}
       <TrustSection />
 
-      {/* TESTIMONIALS */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:py-10 lg:py-12">
-        <div className="mb-6 text-center sm:mb-8">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#7a1020] sm:text-sm">
-            Testimonials
-          </p>
-
-          <h2 className="section-heading text-[28px] sm:text-[38px] md:text-[52px]">
-            Trusted by Retail
-          </h2>
-        </div>
-
-        <GoogleTestimonials reviews={googleReviews} />
-      </section>
+      {/* CUSTOMER REVIEWS (Google style) */}
+      <GoogleReviewsSection />
     </>
   );
 };

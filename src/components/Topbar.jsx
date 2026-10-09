@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Instagram, Phone, Ticket, Copy, Check } from "lucide-react";
+import { Instagram, Phone, Mail, Ticket, Copy, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const icons = [
@@ -17,10 +17,14 @@ const icons = [
   },
 ];
 
+/* Coupons — useCart.jsx (COUPONS) aur CartDrawer.jsx (TIERS) ke saath same rakhna */
 const coupons = [
-  { code: "RAJPAL15", off: "15% OFF", note: "on orders above ₹1000" },
-  { code: "PURELY25", off: "25% OFF", note: "on orders above ₹2000" },
+  { code: "RAJPAL10", off: "10% OFF", note: "on orders above ₹750" },
+  { code: "PURELY20", off: "20% OFF", note: "on orders above ₹1500" },
+  { code: "DIVINE30", off: "30% OFF", note: "on orders above ₹2500" },
 ];
+
+const EMAIL = "info@rajpalproduct.in";
 
 const Topbar = () => {
   const [copied, setCopied] = useState("");
@@ -59,16 +63,26 @@ const Topbar = () => {
       }}
     >
       <div className="mx-auto flex h-11 max-w-7xl items-center gap-3 px-3 sm:px-4">
-        {/* LEFT: phone (lg and up) */}
-        <div className="hidden flex-1 md:flex">
+        {/* LEFT: phone (lg and up) + email (xl and up) */}
+        <div className="hidden flex-1 items-center gap-5 md:flex">
           <a
             href="tel:+919930670044"
-            className="hidden items-center gap-2 rounded-full border border-[#F5D68A]/30 py-1 pl-1 pr-3.5 text-xs font-medium transition-colors hover:bg-[#F5D68A] hover:text-[#4a0712] lg:flex"
+            className="hidden items-center gap-2 text-xs font-medium transition-colors hover:text-white lg:flex"
           >
             <span className="grid h-6 w-6 place-items-center rounded-full bg-[#F5D68A]/15">
               <Phone size={12} />
             </span>
             +91 99306 70044
+          </a>
+
+          <a
+            href={`mailto:${EMAIL}`}
+            className="hidden items-center gap-2 text-xs font-medium transition-colors hover:text-white xl:flex"
+          >
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-[#F5D68A]/15">
+              <Mail size={12} />
+            </span>
+            {EMAIL}
           </a>
         </div>
 
@@ -131,7 +145,7 @@ const Topbar = () => {
             href="tel:+919930670044"
             aria-label="Call us"
             title="Call us"
-            className="hidden h-8 w-8 items-center justify-center rounded-full border border-[#F5D68A]/30 transition-colors hover:bg-[#F5D68A] hover:text-[#4a0712] sm:flex lg:hidden"
+            className="hidden h-8 w-8 items-center justify-center rounded-full bg-[#F5D68A]/15 transition-colors hover:bg-[#F5D68A] hover:text-[#4a0712] sm:flex lg:hidden"
           >
             <Phone size={14} />
           </a>

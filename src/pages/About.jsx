@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   Headphones,
@@ -10,8 +10,13 @@ import {
   CheckCircle2,
   Sparkles,
   Quote,
+  ChevronDown,
+  Heart,
+  Clock,
+  Award,
+  Wind,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import aboutimage from "../assets/rajpalabout.png";
@@ -87,6 +92,34 @@ const team = [
     name: "Ashish Rajpal",
     role: "Brand & Marketing Lead",
     note: "Carries the Rajpal story to new homes, cities and generations.",
+  },
+];
+
+const whyChoose = [
+  {
+    icon: Leaf,
+    title: "Authentic, Natural Ingredients",
+    desc: "Our fragrances are built around sandalwood, rose, saffron and jasmine, sourced from trusted growers. The aroma you smell is the real character of the ingredient, not a harsh artificial cover-up.",
+  },
+  {
+    icon: Wind,
+    title: "Long-Lasting, Soothing Fragrance",
+    desc: "Each stick is hand-rolled and slow-dried so the aroma stays pleasant and lingers in your space. It is made to calm the mind, whether for daily pooja, meditation or simply a peaceful home.",
+  },
+  {
+    icon: Flame,
+    title: "Consistent, Clean Burn",
+    desc: "We focus on even burn time and a steady fragrance in every stick, so the last stick in the pack feels just like the first.",
+  },
+  {
+    icon: Award,
+    title: "Quality Checked, Batch After Batch",
+    desc: "Every batch is tested for fragrance consistency and hand-inspected before packaging. Only products that meet our standard carry the Rajpal name.",
+  },
+  {
+    icon: Heart,
+    title: "A Family Brand, Trusted Since 1981",
+    desc: "For over four decades, families have trusted us for their daily rituals and special occasions. We value that trust, and we stand behind every product with responsive customer support.",
   },
 ];
 
@@ -363,41 +396,169 @@ function QualityVisual() {
   );
 }
 
+/* ---------- Why Choose Us: left intro + right dropdown cards ---------- */
+function WhyChooseUs({ onContact }) {
+  const [openIndex, setOpenIndex] = useState(0);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="
+        mt-24 lg:mt-32
+        grid lg:grid-cols-[0.9fr_1.1fr]
+        gap-12 lg:gap-16
+        items-start
+      "
+    >
+      {/* Left: Why Us */}
+      <div className="lg:sticky lg:top-28">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-px w-10 bg-[#7a1022]/40" />
+          <p
+            className="uppercase tracking-[0.35em] text-[11px] text-[#7a1022] font-medium"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Why Us
+          </p>
+        </div>
+
+        <h2
+          className="text-4xl lg:text-5xl leading-[1.1] font-bold tracking-[-1px] text-[#2f1b00]"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Why Choose
+          <br />
+          <span className="text-[#7a1022]">Rajpal Products</span>
+        </h2>
+
+        <p className="mt-6 text-[17px] leading-[1.9] text-[#6f4b00] max-w-md">
+          A fragrance is more than a smell. It sets the mood of your prayer,
+          your home and your day. Here is why families keep coming back to
+          Rajpal for their daily fragrance.
+        </p>
+
+        <div className="mt-8 flex items-center gap-4">
+          <div
+            className="
+              h-14 w-14 shrink-0
+              bg-gradient-to-br from-[#5a0b16] via-[#7a1022] to-[#8f1730]
+              flex items-center justify-center
+              shadow-lg
+            "
+          >
+            <Clock size={22} className="text-white" />
+          </div>
+          <div>
+            <div
+              className="text-2xl font-bold text-[#7a1022]"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Since 1981
+            </div>
+            <div className="text-[11px] uppercase tracking-[0.25em] text-[#8f1730]">
+              Purely Divine
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={onContact}
+          className="
+            mt-10
+            rounded-full
+            px-8 py-4
+            text-sm
+            tracking-[0.25em]
+            uppercase
+            font-medium
+            bg-gradient-to-r
+            from-[#5a0b16]
+            via-[#7a1022]
+            to-[#8f1730]
+            text-white
+            shadow-xl
+            transition-all duration-500
+            hover:scale-105
+            hover:shadow-[#7a1022]/40
+          "
+        >
+          Talk to Us
+        </button>
+      </div>
+
+      {/* Right: Simple dropdown list */}
+      <div className="border-t border-[#7a1022]/20">
+        {whyChoose.map((item, i) => {
+          const isOpen = openIndex === i;
+
+          return (
+            <div key={item.title} className="border-b border-[#7a1022]/20">
+              <button
+                type="button"
+                onClick={() => setOpenIndex(isOpen ? -1 : i)}
+                aria-expanded={isOpen}
+                className="group w-full flex items-center gap-5 py-6 text-left"
+              >
+                <span
+                  className={`
+                    text-sm tracking-[0.2em] font-semibold w-8 shrink-0
+                    transition-colors duration-300
+                    ${isOpen ? "text-[#7a1022]" : "text-[#7a1022]/40"}
+                  `}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <span
+                  className={`
+                    flex-1 text-xl sm:text-2xl font-bold leading-snug
+                    transition-colors duration-300
+                    ${isOpen ? "text-[#7a1022]" : "text-[#3d2200] group-hover:text-[#7a1022]"}
+                  `}
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {item.title}
+                </span>
+
+                <motion.span
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="shrink-0 text-[#7a1022]"
+                >
+                  <ChevronDown size={22} />
+                </motion.span>
+              </button>
+
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="overflow-hidden"
+                  >
+                    <p className="pb-7 pl-[52px] pr-8 text-[16px] leading-8 text-[#6f4b00]">
+                      {item.desc}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
+
 const About = () => {
   const navigate = useNavigate();
-
-  const [count, setCount] = useState(0);
-
-  const ref = useRef(null);
-
-  const isInView = useInView(ref, {
-    once: true,
-  });
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    let start = 0;
-
-    const end = 21000;
-
-    const duration = 2200;
-
-    const increment = Math.ceil(end / (duration / 20));
-
-    const timer = setInterval(() => {
-      start += increment;
-
-      if (start >= end) {
-        start = end;
-        clearInterval(timer);
-      }
-
-      setCount(start);
-    }, 20);
-
-    return () => clearInterval(timer);
-  }, [isInView]);
 
   return (
     <>
@@ -407,7 +568,6 @@ const About = () => {
       />
 
       <section
-        ref={ref}
         className="
           relative overflow-hidden
           py-28 lg:py-36
@@ -483,55 +643,6 @@ const About = () => {
             </h1>
 
           </div>
-
-          {/* Center Counter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex justify-center mt-12"
-          >
-            <div className="text-center">
-
-              <div
-                className="
-                  text-6xl lg:text-7xl
-                  font-bold
-                  tracking-[-2px]
-                  bg-gradient-to-r
-                  from-[#5a0b16]
-                  via-[#8f1730]
-                  to-[#5a0b16]
-                  bg-clip-text
-                  text-transparent
-                "
-                style={{
-                  fontFamily: "'Playfair Display', serif",
-                }}
-              >
-                {count.toLocaleString()}+
-              </div>
-
-              <p
-                className="mt-3 text-xl text-[#4a0d18] font-semibold"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                }}
-              >
-                Happy Customers
-              </p>
-
-              <p
-                className="text-sm text-[#8f1730] mt-1 tracking-[0.15em]"
-                style={{
-                  fontFamily: "'Inter', sans-serif",
-                }}
-              >
-                Across India & Global Markets
-              </p>
-
-            </div>
-          </motion.div>
 
           {/* Main Content */}
           <motion.div
@@ -1032,6 +1143,9 @@ const About = () => {
               ))}
             </div>
           </div>
+
+          {/* ---------- Why Choose Us (bottom) ---------- */}
+          <WhyChooseUs onContact={() => navigate("/contact")} />
 
         </div>
 

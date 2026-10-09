@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { memo } from "react";
-import { Phone, Mail, MapPin, Star, Globe2, RotateCcw, ChevronRight } from "lucide-react";
+import { Phone, Mail, MapPin, Globe2, RotateCcw, ChevronRight, ShieldCheck } from "lucide-react";
 
 import rajpalLogo from "../assets/rajpal logo PNG.png";
 
@@ -25,17 +25,13 @@ const POLICY_LINKS = [
   { label: "Return & Exchange Policy", to: "/return-exchange-policy" },
 ];
 
-/* ───────────────── ADDRESS + RATING ───────────────── */
+/* ───────────────── ADDRESS ───────────────── */
 const ADDRESS_LINES = [
   "Rajpal Products",
   "Shop No.2, Vastu Matunga Co-operative Housing Society,",
   "Laxmi Narayan Lane, Matunga C.Rly,",
   "Mumbai 400-019",
 ];
-
-const RATING_SCORE = "4.9";
-const RATING_FILLED = 5;
-const RATING_TEXT = "Loved by 5000+ happy customers";
 
 const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
   ADDRESS_LINES.join(", ")
@@ -114,6 +110,134 @@ const SocialIcons = memo(function SocialIcons() {
   );
 });
 
+/* ───────────────── PAYMENT METHOD LOGOS ─────────────────
+   Sab inline SVG hain (koi image file / external link nahi), isliye Vercel par bhi fast load honge.
+   Naya logo add karna ho to PAYMENT_LOGOS mein ek entry daal do. */
+const PAY_W = 52;
+const PAY_H = 32;
+
+const PayChip = ({ label, children }) => (
+  <span
+    role="img"
+    aria-label={label}
+    title={label}
+    className="flex items-center justify-center overflow-hidden rounded-md bg-white shadow-sm ring-1 ring-black/5 "
+    style={{ width: PAY_W, height: PAY_H }}
+  >
+    {children}
+  </span>
+);
+
+const PAYMENT_LOGOS = [
+  {
+    label: "Visa",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <text x="26" y="21" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontStyle="italic" fontSize="16" fill="#1A1F71" letterSpacing="0.5">
+          VISA
+        </text>
+      </svg>
+    ),
+  },
+  {
+    label: "Mastercard",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <circle cx="20" cy="16" r="9" fill="#EB001B" />
+        <circle cx="32" cy="16" r="9" fill="#F79E1B" />
+        <path d="M26 8.6a9 9 0 0 1 0 14.8 9 9 0 0 1 0-14.8z" fill="#FF5F00" />
+      </svg>
+    ),
+  },
+  {
+    label: "American Express",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <rect width="52" height="32" fill="#2E77BB" />
+        <text x="26" y="14" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="9" fill="#fff" letterSpacing="0.6">
+          AMERICAN
+        </text>
+        <text x="26" y="24" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="9" fill="#fff" letterSpacing="0.6">
+          EXPRESS
+        </text>
+      </svg>
+    ),
+  },
+  {
+    label: "Google Pay",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <text x="26" y="21" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="700" fontSize="13">
+          <tspan fill="#4285F4">G</tspan>
+          <tspan fill="#5F6368" dx="1">Pay</tspan>
+        </text>
+        <rect x="9" y="26" width="6" height="2" rx="1" fill="#EA4335" />
+        <rect x="16" y="26" width="6" height="2" rx="1" fill="#FBBC05" />
+        <rect x="23" y="26" width="6" height="2" rx="1" fill="#34A853" />
+      </svg>
+    ),
+  },
+  {
+    label: "PhonePe",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <rect width="52" height="32" fill="#5F259F" />
+        <circle cx="14" cy="16" r="7" fill="#fff" />
+        <text x="14" y="20.5" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="12" fill="#5F259F">
+          ₹
+        </text>
+        <text x="35" y="19.5" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="700" fontSize="9.5" fill="#fff">
+          PhonePe
+        </text>
+      </svg>
+    ),
+  },
+  {
+    label: "Paytm",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <text x="26" y="20.5" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontSize="13" letterSpacing="-0.3">
+          <tspan fill="#002E6E">pay</tspan>
+          <tspan fill="#00BAF2">tm</tspan>
+        </text>
+      </svg>
+    ),
+  },
+  {
+    label: "UPI",
+    node: (
+      <svg viewBox="0 0 52 32" width={PAY_W} height={PAY_H} aria-hidden="true">
+        <text x="22" y="21" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontWeight="900" fontStyle="italic" fontSize="14" fill="#3D3D3D">
+          UPI
+        </text>
+        <path d="M36 9l5 7-5 7z" fill="#097939" />
+        <path d="M41 9l5 7-5 7z" fill="#F26522" />
+      </svg>
+    ),
+  },
+];
+
+const PaymentMethods = memo(function PaymentMethods() {
+  return (
+    <div className="mt-10 flex flex-col items-center gap-4 border-t border-[#C49B63]/10 pt-6 md:flex-row md:justify-between">
+      <div className="text-center md:text-left">
+        <p className="footer-text flex items-center justify-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#C49B63] md:justify-start">
+          <ShieldCheck size={12} /> Secure Payments
+        </p>
+        <p className="footer-text mt-1 text-xs text-white/50">Cards, UPI &amp; wallets accepted</p>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-2.5 md:justify-end">
+        {PAYMENT_LOGOS.map((p) => (
+          <PayChip key={p.label} label={p.label}>
+            {p.node}
+          </PayChip>
+        ))}
+      </div>
+    </div>
+  );
+});
+
 /* ───────────────── FLOATING PARTICLES ───────────────── */
 const Particle = memo(function Particle({ delay, x, size }) {
   return (
@@ -134,7 +258,7 @@ const particles = [
   { delay: 3, x: 80, size: 4 },
 ];
 
-/* ───────────────── INFO CARDS (4 equal cards) ─────────────────
+/* ───────────────── CONTACT & SUPPORT (vertical menu) ─────────────────
    title = chhota label, value = main text.
    `to` = internal page, `href` = external/WhatsApp/mailto. */
 const infoTags = [
@@ -158,44 +282,33 @@ const infoTags = [
   {
     icon: Mail,
     title: "Email Us",
-    value: "info@rajpalproducts.com",
-    href: "mailto:info@rajpalproducts.com",
+    value: "info@rajpalproduct.in",
+    href: "mailto:info@rajpalproduct.in",
   },
 ];
 
-const InfoCard = ({ icon: Icon, title, value, href, to }) => {
-  const base =
-    "group relative flex h-full min-h-[84px] items-center gap-4 overflow-hidden rounded-2xl border border-[#C49B63]/25 bg-gradient-to-br from-white/[0.07] to-white/[0.02] px-5 py-4 transition duration-300";
-  const hover =
-    "hover:-translate-y-1 hover:border-[#C49B63]/60 hover:from-[#C49B63]/15 hover:to-white/[0.03] hover:shadow-[0_14px_36px_rgba(196,155,99,0.15)]";
+const InfoRow = ({ icon: Icon, title, value, href, to }) => {
+  const base = "group flex items-start gap-3";
 
   const content = (
     <>
-      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#C49B63]/40 bg-[#C49B63]/10 text-[#EAD3A1] transition duration-300 group-hover:bg-[#C49B63] group-hover:text-[#070201]">
-        <Icon size={20} strokeWidth={1.8} />
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#C49B63]/25 bg-white/[0.04] text-[#EAD3A1] transition-colors duration-300 group-hover:border-[#C49B63] group-hover:bg-[#C49B63] group-hover:text-[#070201]">
+        <Icon size={14} strokeWidth={1.8} />
       </span>
-
       <span className="min-w-0 flex-1">
-        <span className="footer-text block text-[10px] font-semibold uppercase tracking-[0.25em] text-[#C49B63]">
+        <span className="footer-text block text-[10px] font-semibold uppercase tracking-[0.22em] text-[#C49B63]">
           {title}
         </span>
-        <span className="footer-text mt-1 block break-words text-[13px] font-semibold leading-snug tracking-[0.02em] text-white">
+        <span className="footer-text mt-0.5 block break-words text-[13px] leading-5 text-white/70 transition-colors group-hover:text-[#EAD3A1]">
           {value}
         </span>
       </span>
-
-      {(to || href) && (
-        <ChevronRight
-          size={16}
-          className="shrink-0 text-[#EAD3A1]/50 transition duration-300 group-hover:translate-x-1 group-hover:text-[#EAD3A1]"
-        />
-      )}
     </>
   );
 
   if (to) {
     return (
-      <Link to={to} className={`${base} ${hover}`}>
+      <Link to={to} className={base}>
         {content}
       </Link>
     );
@@ -207,7 +320,7 @@ const InfoCard = ({ icon: Icon, title, value, href, to }) => {
         href={href}
         target={href.startsWith("http") ? "_blank" : undefined}
         rel="noopener noreferrer"
-        className={`${base} ${hover}`}
+        className={base}
       >
         {content}
       </a>
@@ -218,6 +331,8 @@ const InfoCard = ({ icon: Icon, title, value, href, to }) => {
 };
 
 const Footer = () => {
+  const categoryHalf = Math.ceil(categories.length / 2);
+
   return (
     <>
       <style>{`
@@ -227,43 +342,39 @@ const Footer = () => {
         .footer-text{ font-family:'Inter', sans-serif; letter-spacing:0.03em; }
         .footer-brand{ font-family:'Cinzel', serif; font-weight:900; letter-spacing:0.22em; }
 
+        .footer-root{ overflow-anchor: none; }
+
+        .gallery-wrap{
+          contain: layout paint;
+          transform: translateZ(0);
+        }
+
         .marquee-track{
           display:flex;
           width:max-content;
           gap:2rem;
           padding:0 2rem;
           will-change:transform;
+          backface-visibility:hidden;
           animation: marquee-scroll 35s linear infinite;
         }
         .marquee-track:hover{ animation-play-state: paused; }
 
         @keyframes marquee-scroll{
-          from{ transform: translateX(0); }
-          to{ transform: translateX(-50%); }
+          from{ transform: translate3d(0,0,0); }
+          to{ transform: translate3d(-50%,0,0); }
         }
 
         @media (prefers-reduced-motion: reduce){
           .marquee-track{ animation: none; }
         }
 
-        .gallery-card{ transition: transform 0.35s ease; }
-        .gallery-card:hover{ transform: scale(1.04) translateY(-8px); }
-
-        .categories-list{
-          max-height: 190px;
-          overflow-y: auto;
-          padding-right: 6px;
-        }
-        .categories-list::-webkit-scrollbar{ width: 4px; }
-        .categories-list::-webkit-scrollbar-thumb{ background: rgba(196,155,99,0.4); border-radius: 4px; }
-        .categories-list::-webkit-scrollbar-track{ background: transparent; }
+        .gallery-card{ flex-shrink:0; }
       `}</style>
 
-      <footer className="relative overflow-hidden bg-[#070201]">
-        <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#C49B63]/60 to-transparent" />
-
+      <footer className="footer-root relative overflow-hidden bg-[#070201]">
         {/* GALLERY */}
-        <div className="relative z-20 overflow-hidden border-b border-[#C49B63]/10 bg-black/60 py-8">
+        <div className="gallery-wrap relative z-20 h-[304px] overflow-hidden bg-black/60 py-8">
           <div className="marquee-track">
             {[...divineImages, ...divineImages].map((img, i) => (
               <div key={i} className="gallery-card">
@@ -307,16 +418,12 @@ const Footer = () => {
 
         {/* MAIN CONTENT */}
         <div className="relative z-20 mx-auto max-w-7xl px-6 pb-5 pt-10">
-          <div className="grid gap-8 md:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.8fr_1.3fr_1.3fr]">
             {/* BRAND */}
             <div>
-              <motion.div
-                className="relative mb-3 h-12 w-40 sm:h-14 sm:w-44"
-                animate={{ y: [0, -2, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
+              <div className="relative mb-3 h-12 w-40 sm:h-14 sm:w-44">
                 <img src={rajpalLogo} alt="Rajpal Products" className="h-full w-full object-contain drop-shadow-sm" />
-              </motion.div>
+              </div>
               <div className="mb-4 h-px w-24 bg-gradient-to-r from-[#C49B63]/60 to-transparent" />
               <p className="footer-text text-sm leading-6 text-white/55">
                 Premium spiritual fragrance collections crafted with devotion, heritage and timeless Indian elegance since 1981.
@@ -354,18 +461,22 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* CATEGORIES */}
+            {/* CATEGORIES — 2 vertical columns, no scroll */}
             <div>
               <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Categories</h4>
-              <div className="categories-list space-y-2.5">
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    to={`/categories/${cat.slug}`}
-                    className="footer-text block text-sm text-white/55 transition hover:text-[#EAD3A1]"
-                  >
-                    {cat.name}
-                  </Link>
+              <div className="grid grid-cols-2 gap-x-6">
+                {[categories.slice(0, categoryHalf), categories.slice(categoryHalf)].map((col, ci) => (
+                  <div key={ci} className="space-y-2.5">
+                    {col.map((cat) => (
+                      <Link
+                        key={cat.slug}
+                        to={`/categories/${cat.slug}`}
+                        className="footer-text block break-words text-sm text-white/55 transition hover:text-[#EAD3A1]"
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>
@@ -395,61 +506,27 @@ const Footer = () => {
               >
                 Get Directions
               </a>
+            </div>
 
-              <div className="mt-4 rounded-[20px] border border-[#C49B63]/15 bg-white/[0.04] px-4 py-3">
-                <div className="flex items-end gap-2">
-                  <span className="footer-brand text-3xl leading-none text-white">{RATING_SCORE}</span>
-                  <span className="footer-text pb-0.5 text-xs text-white/40">/ 5</span>
-                </div>
-
-                <div className="mt-2 flex gap-1" aria-label={`Rated ${RATING_SCORE} out of 5`}>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.1 + i * 0.08, ease: "backOut" }}
-                      className="inline-flex"
-                    >
-                      <Star
-                        size={17}
-                        strokeWidth={0}
-                        fill={i < RATING_FILLED ? "#FBBC05" : "rgba(255,255,255,0.18)"}
-                      />
-                    </motion.span>
-                  ))}
-                </div>
-
-                <p className="footer-text mt-1.5 text-xs leading-5 text-white/50">{RATING_TEXT}</p>
+            {/* CONTACT & SUPPORT — vertical menu */}
+            <div>
+              <h4 className="footer-heading mb-5 text-xs uppercase text-[#EAD3A1]">Contact Us</h4>
+              <div className="space-y-4">
+                {infoTags.map((tag) => (
+                  <InfoRow key={tag.title} {...tag} />
+                ))}
               </div>
             </div>
           </div>
 
-          {/* INFO CARDS — 1 col mobile, 2 col tablet, 4 col desktop; sab same height */}
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {infoTags.map((tag) => (
-              <InfoCard key={tag.title} {...tag} />
-            ))}
-          </div>
+          {/* SECURE PAYMENTS — horizontal strip */}
+          <PaymentMethods />
 
           {/* BOTTOM BAR */}
-          <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-[#C49B63]/10 pt-4 md:flex-row">
+          <div className="mt-6 flex flex-col items-center justify-between gap-3 border-t border-[#C49B63]/10 pt-4 md:flex-row">
             <p className="footer-text text-[10px] tracking-[0.15em] text-white/35">
-              © {new Date().getFullYear()} RAJPAL PRODUCTS — PURELY DIVINE
+              © {new Date().getFullYear()} RAJPAL PRODUCTS | PURELY DIVINE
             </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-              {POLICY_LINKS.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="footer-text text-[10px] uppercase tracking-[0.15em] text-white/45 transition hover:text-[#EAD3A1]"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
 
             <p className="footer-text text-[10px] tracking-[0.12em] text-white/35">
               Made by{" "}

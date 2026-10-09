@@ -12,19 +12,26 @@ const CartContext = createContext(null);
  * ── COUPONS ────────────────────────────────────────────────────────────────
  * Naya coupon add karna ho to bas yahan ek entry add kar do.
  * minAmount = cart subtotal kam se kam kitna hona chahiye.
+ * NOTE: CartDrawer.jsx ke TIERS me bhi same percent / amount rakhna.
  */
 export const COUPONS = {
-  RAJPAL15: {
-    code: "RAJPAL15",
-    percent: 15,
-    minAmount: 1000,
-    title: "15% OFF on ₹1,000+",
+  RAJPAL10: {
+    code: "RAJPAL10",
+    percent: 10,
+    minAmount: 750,
+    title: "10% OFF on ₹750+",
   },
-  PURELY25: {
-    code: "PURELY25",
-    percent: 25,
-    minAmount: 2000,
-    title: "25% OFF on ₹2,000+",
+  PURELY20: {
+    code: "PURELY20",
+    percent: 20,
+    minAmount: 1500,
+    title: "20% OFF on ₹1,500+",
+  },
+  DIVINE30: {
+    code: "DIVINE30",
+    percent: 30,
+    minAmount: 2500,
+    title: "30% OFF on ₹2,500+",
   },
 };
 
@@ -115,12 +122,12 @@ export const CartProvider = ({ children }) => {
 
   // Cart chhota ho gaya aur coupon ki minimum shart tut gayi -> coupon hata do
   useEffect(() => {
-    if (couponCode && subtotal < COUPONS[couponCode].minAmount) {
+    if (couponCode && (!COUPONS[couponCode] || subtotal < COUPONS[couponCode].minAmount)) {
       setCouponCode(null);
     }
   }, [subtotal, couponCode]);
 
-  const appliedCoupon = couponCode ? COUPONS[couponCode] : null;
+  const appliedCoupon = couponCode ? COUPONS[couponCode] || null : null;
   const discount = appliedCoupon
     ? Math.round((subtotal * appliedCoupon.percent) / 100)
     : 0;

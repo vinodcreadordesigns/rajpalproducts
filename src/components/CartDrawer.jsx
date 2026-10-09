@@ -23,11 +23,13 @@ const MAROON = "#6E0F1D";
 const GREEN = "#388E3C";
 const BLUE = "#2874F0";
 const PURPLE = "#7B3FC4";
+const GOLD = "#B7791F";
 
-/** Savings tiers — coupon codes useCart.jsx me hain */
+/** Savings tiers — coupon codes useCart.jsx me hain (percent / amount dono jagah same rakhna) */
 const TIERS = [
-  { amount: 1000, percent: 15, code: "RAJPAL15", color: GREEN, bg: "#E8F5E9", border: "#A5D6A7" },
-  { amount: 2000, percent: 25, code: "PURELY25", color: PURPLE, bg: "#F3E8FF", border: "#D1B3F5" },
+  { amount: 750,  percent: 10, code: "RAJPAL10", color: GREEN,  bg: "#E8F5E9", border: "#A5D6A7" },
+  { amount: 1500, percent: 20, code: "PURELY20", color: PURPLE, bg: "#F3E8FF", border: "#D1B3F5" },
+  { amount: 2500, percent: 30, code: "DIVINE30", color: GOLD,   bg: "#FEF3C7", border: "#FCD34D" },
 ];
 const MAX_TIER = TIERS[TIERS.length - 1].amount;
 
@@ -180,11 +182,13 @@ const ProductImg = ({ src, alt, className = "" }) => {
   return <img src={src} alt={alt} onError={() => setBroken(true)} className={`object-cover ${className}`} />;
 };
 
-/* ───────────────────── SAVINGS PROGRESS (compact) ───────────────────── */
+/* ───────────────────── SAVINGS PROGRESS (3 tiers) ───────────────────── */
 const SavingsProgress = ({ subtotal, appliedCoupon }) => {
   const progress = Math.min((subtotal / MAX_TIER) * 100, 100);
   const nextTier = TIERS.find((t) => subtotal < t.amount);
   const remaining = nextTier ? Math.ceil(nextTier.amount - subtotal) : 0;
+  const topTier = TIERS[TIERS.length - 1];
+  const unlocked = [...TIERS].reverse().find((t) => subtotal >= t.amount);
 
   return (
     <div>
@@ -193,16 +197,16 @@ const SavingsProgress = ({ subtotal, appliedCoupon }) => {
         <span>
           {nextTier
             ? `Add ${formatINR(remaining)} more to unlock ${nextTier.percent}% OFF`
-            : appliedCoupon
+            : appliedCoupon?.code === topTier.code
               ? "Best deal applied — you're saving the most!"
-              : "25% OFF unlocked — apply PURELY25"}
+              : `${topTier.percent}% OFF unlocked — apply ${topTier.code}`}
         </span>
       </div>
 
       <div className="relative mx-2 h-2 rounded-full bg-gray-200">
         <motion.div
           className="h-full rounded-full"
-          style={{ background: progress >= 100 ? PURPLE : GREEN }}
+          style={{ background: unlocked ? unlocked.color : GREEN }}
           initial={false}
           animate={{ width: `${progress}%` }}
           transition={{ type: "spring", stiffness: 120, damping: 20 }}
@@ -222,7 +226,7 @@ const SavingsProgress = ({ subtotal, appliedCoupon }) => {
         ))}
       </div>
 
-      <div className="relative mx-2 mt-2 h-4 text-[10px] font-semibold text-gray-500">
+      <div className="relative mx-2 mt-2 h-8 text-center text-[10px] font-semibold leading-tight text-gray-500">
         {TIERS.map((t, i) => (
           <span
             key={t.code}
@@ -233,7 +237,9 @@ const SavingsProgress = ({ subtotal, appliedCoupon }) => {
               color: subtotal >= t.amount ? t.color : undefined,
             }}
           >
-            {formatINR(t.amount)} · {t.percent}% OFF
+            {formatINR(t.amount)}
+            <br />
+            {t.percent}% OFF
           </span>
         ))}
       </div>
@@ -315,9 +321,9 @@ const CouponPanel = ({ subtotal, appliedCoupon, applyCoupon, removeCoupon, disco
         )}
       </AnimatePresence>
 
-      <div className="mt-2.5 grid grid-cols-2 gap-2">
+      <div className="mt-2.5 grid grid-cols-1 gap-2 sm:grid-cols-3">
         {COUPON_LIST.map((c) => {
-          const tier = TIERS.find((t) => t.code === c.code);
+          const tier = TIERS.find((t) => t.code === c.code) || TIERS[0];
           const locked = subtotal < c.minAmount;
           const active = appliedCoupon?.code === c.code;
           return (
@@ -1102,7 +1108,7 @@ const CartDrawer = ({ suggestions = [] }) => {
               </div>
               <h3 className="text-lg font-bold text-gray-800">Your cart is empty</h3>
               <p className="mt-1.5 text-sm text-gray-500">
-                Add products to get 15% OFF above ₹1,000 and 25% OFF above ₹2,000.
+                Add products to get 10% OFF above ₹750, 20% OFF above ₹1,500 and 30% OFF above ₹2,500.
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}

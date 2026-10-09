@@ -1,32 +1,48 @@
-import { Link } from "react-router-dom";
-
 const PolicyLayout = ({ title, updated, sections }) => (
-  <main className="min-h-screen bg-[#070201] px-6 pb-20 pt-32 text-white">
-    <div className="mx-auto max-w-3xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#C49B63]">Rajpal Products</p>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-[0.12em] text-[#EAD3A1] sm:text-4xl" style={{ fontFamily: "'Cinzel', serif" }}>
-        {title}
-      </h1>
-      <div className="mt-4 h-px w-24 bg-gradient-to-r from-[#C49B63]/70 to-transparent" />
-      <p className="mt-4 text-xs text-white/40">Last updated: {updated}</p>
+  <main className="policy-page">
+    <style>{`
+      .policy-page { background: #fffaf3; min-height: 100vh; padding: 48px 16px 64px; color: #2f2a26; font-family: "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.7; }
+      .policy-wrap { max-width: 820px; margin: 0 auto; }
+      .policy-header { text-align: center; margin-bottom: 32px; }
+      .policy-header h1 { font-size: 2rem; margin: 0 0 8px; color: #7a3e00; }
+      .policy-updated { display: inline-block; font-size: 0.85rem; color: #8a6d4b; background: #fdeccd; padding: 4px 14px; border-radius: 999px; }
+      .policy-card { background: #ffffff; border: 1px solid #f0e2cc; border-radius: 14px; padding: 28px 32px; box-shadow: 0 2px 10px rgba(122, 62, 0, 0.06); }
+      .policy-section { padding: 18px 0; border-bottom: 1px solid #f3e9d8; }
+      .policy-section:first-child { padding-top: 0; }
+      .policy-section:last-child { border-bottom: none; padding-bottom: 0; }
+      .policy-section h2 { font-size: 1.15rem; margin: 0 0 8px; color: #9a4f00; }
+      .policy-section p { margin: 0 0 8px; font-size: 0.97rem; white-space: pre-line; }
+      .policy-section ul { margin: 6px 0 8px; padding-left: 22px; }
+      .policy-section li { margin-bottom: 6px; font-size: 0.97rem; }
+      .policy-section li::marker { color: #e08a1e; }
+      .policy-note { background: #fff6e5; border-left: 3px solid #e08a1e; padding: 8px 12px; border-radius: 4px; }
+      @media (max-width: 600px) {
+        .policy-card { padding: 20px 18px; }
+        .policy-header h1 { font-size: 1.6rem; }
+      }
+    `}</style>
 
-      <div className="mt-10 space-y-5">
+    <div className="policy-wrap">
+      <header className="policy-header">
+        <h1>{title}</h1>
+        {updated && <span className="policy-updated">Effective Date: {updated}</span>}
+      </header>
+
+      <div className="policy-card">
         {sections.map((s) => (
-          <section key={s.heading} className="rounded-2xl border border-[#C49B63]/20 bg-white/[0.04] p-6">
-            <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-[#EAD3A1]">{s.heading}</h2>
-            {s.text && <p className="mt-3 text-sm leading-7 text-white/65">{s.text}</p>}
+          <section className="policy-section" key={s.heading}>
+            <h2>{s.heading}</h2>
+            {s.text && <p>{s.text}</p>}
             {s.points && (
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 text-white/65 marker:text-[#C49B63]">
-                {s.points.map((p) => <li key={p}>{p}</li>)}
+              <ul>
+                {s.points.map((p, i) => (
+                  <li key={i}>{p}</li>
+                ))}
               </ul>
             )}
+            {s.note && <p className="policy-note">{s.note}</p>}
           </section>
         ))}
-      </div>
-
-      <div className="mt-10 flex flex-wrap gap-4 text-xs uppercase tracking-[0.15em]">
-        <Link to="/" className="text-[#EAD3A1] underline-offset-4 hover:underline">← Back to Home</Link>
-        <a href="mailto:info@rajpalproducts.com" className="text-white/50 hover:text-[#EAD3A1]">info@rajpalproducts.com</a>
       </div>
     </div>
   </main>
