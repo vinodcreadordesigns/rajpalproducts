@@ -468,6 +468,21 @@ import   imgKasturilong     from "../assets/images/longsticks/kasturi.jpg"
 import   imgKasturilongHover     from "../assets/images/longsticks/kasturi-hover.jpg"
 import   imgKesarlong     from "../assets/images/longsticks/kesar.jpg"
 import   imgKesarlongHover     from "../assets/images/longsticks/kesar-hover.jpg"
+import   imgkesarKasturilong     from "../assets/images/longsticks/kesarkasturi.jpg"
+import   imgkesarKasturilongHover     from "../assets/images/longsticks/kesarkasturi-hover.jpg"
+
+//natures bouquet longsticks
+import   imgchampagolden     from "../assets/images/longsticks/goldenchampa.png"
+import   imgpurekapoor    from "../assets/images/longsticks/kapoorpure.png"
+import   imglevendercalm    from "../assets/images/longsticks/calmlevender.png"
+import   imgchandandivine    from "../assets/images/longsticks/divinechandan.png"
+import   imgkasturimys    from "../assets/images/longsticks/myskasturi.png"
+import   imgflorasacred    from "../assets/images/longsticks/sacredflora.png"
+import   imgauramagnet    from "../assets/images/longsticks/magnetaura.png"
+import   imgfloralfantasy    from "../assets/images/longsticks/floralfantasy.png"
+import   imgfusion2in1    from "../assets/images/longsticks/tropicalfusion.png"
+
+
 
 //roll on perfume
 import   imgAgarwoodRollon     from "../assets/images/rollon/agarwood.jpg"
@@ -958,7 +973,7 @@ export const productCatalog = {
         ],
       },
       {
-        title: "Premium Dhoopsticks",
+        title: "Premium Dhoop-sticks",
         products: [
           makeProduct("Premium Special Chandan",   "50g", "₹75", "", imgSpecialChandan,   imgSpecialChandanHover),
           makeProduct("Premium Special Rose",      "50g", "₹75", "", imgSpecialRose,      imgSpecialRoseHover),
@@ -972,7 +987,7 @@ export const productCatalog = {
         ],
       },
          {
-        title: "Exotic Dhoopsticks",
+        title: "Exotic Dhoop-sticks",
         products: [
          makeProduct("Exotic Amber",   "10sticks", "₹150", "", imgamberdhoop),
           makeProduct("Exotic Bakhoor", "10sticks", "₹150", "", imgbakhoordhoop),
@@ -986,7 +1001,7 @@ export const productCatalog = {
         ],
       },
          {
-        title: "9-Inch Long Dhoopsticks",
+        title: "9-Inch Long Dhoop-sticks",
         products: [
           makeProduct("divine meditation",   "100g", "₹150", "", imgDivinemeditation,   imgDivinemeditationHover),
           makeProduct("dreams",      "100g", "₹150", "", imgDreams9 ,      imgDreams9Hover),
@@ -1003,7 +1018,7 @@ export const productCatalog = {
         ],
       },
          {
-        title: "Premium Masala Dhoopsticks",
+        title: "Premium Masala Dhoop-sticks",
         products: [
                      makeProduct("Premium Red Wood",          "50g", "₹135", "", imgRedWoodDhoop,     imgRedWoodDhoopHover),
           makeProduct("Premium Kesar Chandan",     "50g", "₹135", "", imgKesarChandan,     imgKesarChandanHover),
@@ -1256,14 +1271,15 @@ export const productCatalog = {
     "long-sticks": {
     sections: [
         {
-        title: "Premiun Longsticks",
+        title: "Ultra Premiun Longsticks",
         products: [
         makeProduct("Premiun kesar",  "2 sticks", "₹180", "", imgKesarlong, imgKesarlongHover),
         makeProduct("Premiun chandan - long", "2 sticks", "₹180", "", imgChandanlong, imgChandanlongHover),
         makeProduct("Premiun heena - long", "2 sticks", "₹180", "", imgHeenalong, imgHeenalongHover),
         makeProduct("Ultra Premiun javadhu",  "2 sticks", "₹180", "", imgjavadhulong, imgjavadhulongHover),
-        makeProduct("Ultra Premiun kasturi",  "2 sticks", "₹180", "", imgKasturilong, imgKasturilongHover),
+        makeProduct("Ultra Premiun Kesar kasturi",  "2 sticks", "₹180", "", imgKasturilong, imgKasturilongHover),
           makeProduct("Premiun Khus",  "2 sticks", "₹180", "", imgKhuslong, imgKhuslongHover),
+          makeProduct("Ultra Premiun kasturi",  "2 sticks", "₹180", "", imgkesarKasturilong, imgkesarKasturilongHover),
 
         ],
       },
@@ -1279,6 +1295,20 @@ export const productCatalog = {
     makeProduct("tathastu",  "5 sticks", "₹175", "", imgtathastulong, imgtathastulongHover),
       makeProduct("traditional flora", "5 sticks", "₹175", "", imgflora, imgfloraHover),
         makeProduct("kesar - kasturi",  "1 sticks", "₹50", "", imgkesarkasturilong, imgkesarkasturilongHover),
+        ],
+      },
+        {
+        title: "Nature's Bouquet Longsticks",
+        products: [
+          makeProduct("Golden Champa", "10 sticks", "₹125", "", imgchampagolden),
+          makeProduct("Pure Kapoor", "10 sticks", "₹125", "", imgpurekapoor),
+          makeProduct("Calm Levender", "10 sticks", "₹125", "", imglevendercalm),
+          makeProduct("Divine Chandan", "10 sticks", "₹125", "", imgchandandivine),
+          makeProduct("Mystique Kasturi", "10 sticks", "₹125", "", imgkasturimys),
+          makeProduct("Sacred Flora", "10 sticks", "₹125", "", imgflorasacred),
+          makeProduct("Aura Magnet", "10 sticks", "₹125", "", imgauramagnet),
+          makeProduct("Floral Fantasy", "10 sticks", "₹125", "", imgfloralfantasy),
+          makeProduct("Tropical Fusion 2-in-1", "10 sticks", "₹125", "",  imgfusion2in1),
         ],
       },
     ],
